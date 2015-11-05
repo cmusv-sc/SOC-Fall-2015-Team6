@@ -22,22 +22,59 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import javax.persistence.*;
+//import play.db.ebean.Model;
+//import com.avaje.ebean.*;
+
 
 import play.data.validation.Constraints;
 
 @Entity
 public class User {
 
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private long id;
+	
 	@Id
+	@Constraints.Required
     public String email;
-    public String name;
+	@Constraints.Required
     public String password;
+    @Constraints.Required
+    public String userName;
     
-    public User(String email, String name, String password) {
+    public User(String email, String password, String userName) {
       this.email = email;
-      this.name = name;
       this.password = password;
+      this.userName = userName;
     }
+    
+	public String getEmail() {
+		return email;
+	}
+    
+	public String getPassword() {
+		return password;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	
+    
 
 //    public static Finder<String,User> find = new Finder<String,User>(
 //        String.class, User.class
@@ -48,10 +85,10 @@ public class User {
 //            .eq("password", password).findUnique();
 //    }
 	
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	private long id;
-//
+
+
+	
+	
 //	private String userName;
 //	@Constraints.Required
 //	private String password;
@@ -102,13 +139,7 @@ public class User {
 //		return id;
 //	}
 //
-//	public String getUserName() {
-//		return userName;
-//	}
-//
-//	public String getPassword() {
-//		return password;
-//	}
+
 //
 //	public String getFirstName() {
 //		return firstName;
@@ -130,9 +161,7 @@ public class User {
 //		return title;
 //	}
 //
-//	public String getEmail() {
-//		return email;
-//	}
+
 //
 //	public String getMailingAddress() {
 //		return mailingAddress;
@@ -158,13 +187,6 @@ public class User {
 //		this.id = id;
 //	}
 //
-//	public void setUserName(String userName) {
-//		this.userName = userName;
-//	}
-//
-//	public void setPassword(String password) {
-//		this.password = password;
-//	}
 //
 //	public void setFirstName(String firstName) {
 //		this.firstName = firstName;
@@ -186,9 +208,7 @@ public class User {
 //		this.title = title;
 //	}
 //
-//	public void setEmail(String email) {
-//		this.email = email;
-//	}
+
 //
 //	public void setMailingAddress(String mailingAddress) {
 //		this.mailingAddress = mailingAddress;

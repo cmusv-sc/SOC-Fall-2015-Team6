@@ -5,9 +5,16 @@
 # Home page
 GET         /home                                                controllers.ClimateServiceController.home(email ?= null, vfile ?= null, dataset ?= null)
 GET 		/													 controllers.ClimateServiceController.home(email ?= null, vfile ?= null, dataset ?= null)
-GET			/login 												 controllers.Application.login()
 
+
+
+GET			/login 												 controllers.Application.login()
 POST		/login											 	 controllers.Application.authenticate()
+
+GET			/workflowHome										 controllers.Application.workflowHome()
+
+
+
 
 # BugReporting
 GET         /bugs                                                controllers.BugReportController.reports()

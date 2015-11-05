@@ -33,6 +33,7 @@ import models.*;
 
 public class Application extends Controller {
 	
+	private static User user;
 	
 	public static Result index() {
         return ok(index.render(""));
@@ -49,6 +50,8 @@ public class Application extends Controller {
         
         public String email;
         public String password;
+        public String userName;
+        
         
 //        public String validate() {
 //            if (User.authenticate(email, password) == null) {
@@ -61,28 +64,53 @@ public class Application extends Controller {
     public static Result authenticate() {
     	Form<Login> loginForm = form(Login.class).bindFromRequest();
     	
+//    	user.save();
+    	user = new User(loginForm.get().email, loginForm.get().password, loginForm.get().userName);
+    	
+    	
+//    	Login login = Form.form(Login.class).bindFromRequest().get();
+//    	user = new User(login.email, login.password, login.userName);
+    	
+//		session().clear();
+//		session("email", loginForm.get().email);
+//		session("password", loginForm.get().password);
+//		session("userName", loginForm.get().userName);
+		
+//		user = new User(session(result).get("email"), session(result).get("password"), session(result).get("userName"));
+//		System.out.println(user.getEmail());
+//    	System.out.println(user.getUserName());
+//    	System.out.println(user.getPassword());
+    	
+//    	System.out.println("////////" + request().body().asJson());
+    	
 //    	if (loginForm.hasErrors()) {
 //            return badRequest(login.render(loginForm));
 //        } else {
 //            session().clear();
 //            session("email", loginForm.get().email);
 //            return redirect(
-//                routes.Application.login()
+//                routes.Application.workflowHome()
 //            );
 //        }
     	
     	return redirect(
-              routes.Application.login()
-          );
+    			routes.Application.workflowHome()
+        );
     }
     
+    public static Result workflowHome() {
+    	return ok(workflow_home.render(user));
+    }
+
+    
+  
     
     
-//    public static void flashMsg(JsonNode jsonNode){
-//		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
-//		while (it.hasNext()) {
-//			Entry<String, JsonNode> field = it.next();
-//			flash(field.getKey(),field.getValue().asText());	
-//		}
-//    }
+    public static void flashMsg(JsonNode jsonNode){
+		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
+		while (it.hasNext()) {
+			Entry<String, JsonNode> field = it.next();
+			flash(field.getKey(),field.getValue().asText());	
+		}
+    }
 }
