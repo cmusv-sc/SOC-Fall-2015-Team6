@@ -16,3 +16,5 @@ dist/
 .cache
 .DS_Store
 data/
+.idea/
+.idea_modules/
