@@ -23,27 +23,66 @@ import com.fasterxml.jackson.databind.JsonNode;
 import play.mvc.*;
 import views.html.*;
 
+import play.data.*;
+
+
+import play.*;
+import static play.data.Form.*;
+
+import models.*;
+
 public class Application extends Controller {
 	
-    public static Result index() {
+	
+	public static Result index() {
         return ok(index.render(""));
     }
+ 
+    
+    public static Result login() {
+		return ok(
+				login.render(form(Login.class))
+				);
+	}
 
     public static class Login {
         
         public String email;
         public String password;
         
-        public String validate() {
-            return null;
-        } 
+//        public String validate() {
+//            if (User.authenticate(email, password) == null) {
+//              return "Invalid user or password";
+//            }
+//            return null;
+//        }
     }
     
-    public static void flashMsg(JsonNode jsonNode){
-		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
-		while (it.hasNext()) {
-			Entry<String, JsonNode> field = it.next();
-			flash(field.getKey(),field.getValue().asText());	
-		}
+    public static Result authenticate() {
+    	Form<Login> loginForm = form(Login.class).bindFromRequest();
+    	
+//    	if (loginForm.hasErrors()) {
+//            return badRequest(login.render(loginForm));
+//        } else {
+//            session().clear();
+//            session("email", loginForm.get().email);
+//            return redirect(
+//                routes.Application.login()
+//            );
+//        }
+    	
+    	return redirect(
+              routes.Application.login()
+          );
     }
+    
+    
+    
+//    public static void flashMsg(JsonNode jsonNode){
+//		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
+//		while (it.hasNext()) {
+//			Entry<String, JsonNode> field = it.next();
+//			flash(field.getKey(),field.getValue().asText());	
+//		}
+//    }
 }

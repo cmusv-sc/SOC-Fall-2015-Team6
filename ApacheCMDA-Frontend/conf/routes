@@ -5,7 +5,9 @@
 # Home page
 GET         /home                                                controllers.ClimateServiceController.home(email ?= null, vfile ?= null, dataset ?= null)
 GET 		/													 controllers.ClimateServiceController.home(email ?= null, vfile ?= null, dataset ?= null)
+GET			/login 												 controllers.Application.login()
 
+POST		/login											 	 controllers.Application.authenticate()
 
 # BugReporting
 GET         /bugs                                                controllers.BugReportController.reports()
