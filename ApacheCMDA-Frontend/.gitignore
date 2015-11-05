@@ -21,3 +21,4 @@ data/
 .classpath
 .project
 .settings
+/.target/
