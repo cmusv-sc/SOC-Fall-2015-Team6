@@ -50,7 +50,6 @@ public class Application extends Controller {
         
         public String email;
         public String password;
-        public String userName;
         
         
 //        public String validate() {
@@ -63,26 +62,9 @@ public class Application extends Controller {
     
     public static Result authenticate() {
     	Form<Login> loginForm = form(Login.class).bindFromRequest();
+    	user = new User(loginForm.get().email, loginForm.get().password);
     	
-//    	user.save();
-    	user = new User(loginForm.get().email, loginForm.get().password, loginForm.get().userName);
-    	
-    	
-//    	Login login = Form.form(Login.class).bindFromRequest().get();
-//    	user = new User(login.email, login.password, login.userName);
-    	
-//		session().clear();
-//		session("email", loginForm.get().email);
-//		session("password", loginForm.get().password);
-//		session("userName", loginForm.get().userName);
-		
-//		user = new User(session(result).get("email"), session(result).get("password"), session(result).get("userName"));
-//		System.out.println(user.getEmail());
-//    	System.out.println(user.getUserName());
-//    	System.out.println(user.getPassword());
-    	
-//    	System.out.println("////////" + request().body().asJson());
-    	
+    
 //    	if (loginForm.hasErrors()) {
 //            return badRequest(login.render(loginForm));
 //        } else {
@@ -92,7 +74,7 @@ public class Application extends Controller {
 //                routes.Application.workflowHome()
 //            );
 //        }
-    	
+
     	return redirect(
     			routes.Application.workflowHome()
         );

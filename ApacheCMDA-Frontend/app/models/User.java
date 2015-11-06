@@ -40,13 +40,10 @@ public class User {
     public String email;
 	@Constraints.Required
     public String password;
-    @Constraints.Required
-    public String userName;
     
-    public User(String email, String password, String userName) {
+    public User(String email, String password) {
       this.email = email;
       this.password = password;
-      this.userName = userName;
     }
     
 	public String getEmail() {
@@ -57,9 +54,6 @@ public class User {
 		return password;
 	}
 	
-	public String getUserName() {
-		return userName;
-	}
 	
 	public void setEmail(String email) {
 		this.email = email;
@@ -69,11 +63,6 @@ public class User {
 		this.password = password;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	
     
 
 //    public static Finder<String,User> find = new Finder<String,User>(
