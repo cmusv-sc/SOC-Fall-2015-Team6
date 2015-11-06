@@ -22,3 +22,4 @@ data/
 .project
 .settings
 /.target/
+.history
