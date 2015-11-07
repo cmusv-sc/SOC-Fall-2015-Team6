@@ -21,12 +21,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
+import models.metadata.ClimateService;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 //import play.db.ebean.Model;
 //import com.avaje.ebean.*;
 
 
 import play.data.validation.Constraints;
+import util.APICall;
+import util.Constants;
 
 @Entity
 public class User {
@@ -64,18 +73,8 @@ public class User {
 	}
 
     
-
-//    public static Finder<String,User> find = new Finder<String,User>(
-//        String.class, User.class
-//    ); 
-//	
-//    public static User authenticate(String email, String password) {
-//        return find.where().eq("email", email)
-//            .eq("password", password).findUnique();
-//    }
 	
-
-
+	
 	
 	
 //	private String userName;

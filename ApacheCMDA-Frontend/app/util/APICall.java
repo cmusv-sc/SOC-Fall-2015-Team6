@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class APICall {
 	public static enum ResponseType {
-		SUCCESS, GETERROR, SAVEERROR, DELETEERROR, RESOLVEERROR, TIMEOUT, CONVERSIONERROR, UNKNOWN
+		SUCCESS, USERINVALID, GETERROR, SAVEERROR, DELETEERROR, RESOLVEERROR, TIMEOUT, CONVERSIONERROR, UNKNOWN
 	}
 
 	public static JsonNode callAPI(String apiString) {
@@ -164,6 +164,9 @@ public class APICall {
 		switch (type) {
 		case SUCCESS:
 			jsonData.put("success", "Success!");
+			break;
+		case USERINVALID:
+			jsonData.put("error", "User is invalid");
 			break;
 		case GETERROR:
 			jsonData.put("error", "Cannot get data from server");

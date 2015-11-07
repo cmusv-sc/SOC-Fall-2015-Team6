@@ -17,82 +17,109 @@
 
 package controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import controllers.Application;
 import play.mvc.*;
+import util.APICall;
+import util.APICall.ResponseType;
 import views.html.*;
 
 import play.data.*;
-
-
+import play.libs.Json;
 import play.*;
 import static play.data.Form.*;
 
 import models.*;
+import models.metadata.UserService;
 
 public class Application extends Controller {
 	
+	final static Form<Login> loginForm = form(Login.class).bindFromRequest();
+
 	private static User user;
-	
+
 	public static Result index() {
-        return ok(index.render(""));
-    }
- 
-    
-    public static Result login() {
-		return ok(
-				login.render(form(Login.class))
+		return ok(index.render(""));
+	}
+
+	public static Result login() {
+		return ok(login.render(form(Login.class)));
+	}
+
+	public static class Login {
+
+		public String email;
+		public String password;
+		
+		public String validate() {
+			ObjectNode jsonData = Json.newObject();
+
+			jsonData.put("email", email);
+			jsonData.put("password", password);
+
+			JsonNode response =	UserService.verifyUserAuthentity(jsonData);
+				
+			if (response == null) {
+				return "Invalid user or password.";
+			} else {
+				return null;
+			}
+		}	
+	}
+
+	public static Result authenticate() {
+		
+		if (loginForm.hasErrors()) {
+			return badRequest(login.render(loginForm));
+		}
+		
+		session().clear();
+		session("email", loginForm.get().email);
+		session("password", loginForm.get().password);
+		
+		return redirect(
+				routes.Application.workflowHome()
 				);
 	}
 
-    public static class Login {
-        
-        public String email;
-        public String password;
-        
-        
-//        public String validate() {
-//            if (User.authenticate(email, password) == null) {
-//              return "Invalid user or password";
-//            }
-//            return null;
-//        }
-    }
-    
-    public static Result authenticate() {
-    	Form<Login> loginForm = form(Login.class).bindFromRequest();
-    	user = new User(loginForm.get().email, loginForm.get().password);
-    	
-    
-//    	if (loginForm.hasErrors()) {
-//            return badRequest(login.render(loginForm));
-//        } else {
-//            session().clear();
-//            session("email", loginForm.get().email);
-//            return redirect(
-//                routes.Application.workflowHome()
-//            );
-//        }
+	public static Result workflowHome() {
+		if(session().isEmpty()) {
+			return ok(login.render(loginForm));
+		}
+	
+		user = new User(session().get("email"), session().get("password"));
+		//call backend, get user all information.
+		
+		return ok(workflow_home.render(user));
+	}
 
-    	return redirect(
-    			routes.Application.workflowHome()
-        );
-    }
-    
-    public static Result workflowHome() {
-    	return ok(workflow_home.render(user));
-    }
-
-    
-  
-    
-    
-    public static void flashMsg(JsonNode jsonNode){
+	
+	
+	
+	
+	
+	
+//	public static void sessionMsg(JsonNode jsonNode) {
+//		session().clear();
+//		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
+//		while (it.hasNext()) {
+//			Entry<String, JsonNode> field = it.next();
+//			session(field.getKey(), field.getValue().asText());
+//		}
+//	}
+//	
+	public static void flashMsg(JsonNode jsonNode) {
 		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
 		while (it.hasNext()) {
 			Entry<String, JsonNode> field = it.next();
-			flash(field.getKey(),field.getValue().asText());	
+			flash(field.getKey(), field.getValue().asText());
 		}
-    }
+	}
 }
