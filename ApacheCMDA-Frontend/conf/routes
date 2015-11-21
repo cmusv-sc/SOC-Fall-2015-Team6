@@ -13,7 +13,11 @@ POST		/login											 	 controllers.Application.authenticate()
 
 GET			/workflowHome										 controllers.Application.workflowHome()
 
+GET			/workflow										     controllers.WorkFlow.workflow()
 
+GET			/createNewUser										 controllers.Application.createNewUser()
+GET			/signup										 		 controllers.Application.signup()
+GET			/createSuccess										 controllers.Application.createSuccess()
 
 
 # BugReporting

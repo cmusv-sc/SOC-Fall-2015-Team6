@@ -29,9 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-//import play.db.ebean.Model;
-//import com.avaje.ebean.*;
-
 
 import play.data.validation.Constraints;
 import util.APICall;
@@ -45,11 +42,30 @@ public class User {
 //	private long id;
 	
 	@Id
+	
+	private String userName;
 	@Constraints.Required
     public String email;
 	@Constraints.Required
     public String password;
     
+	
+	
+	@Constraints.Required
+	private String firstName;
+	@Constraints.Required
+	private String lastName;
+	private String middleInitial;
+	private String affiliation;
+	private String title;
+	@Constraints.Required
+	private String mailingAddress;
+	private String phoneNumber;
+	private String faxNumber;
+	private String researchFields;
+	private String highestDegree;
+	
+	
     public User(String email, String password) {
       this.email = email;
       this.password = password;
@@ -99,29 +115,29 @@ public class User {
 //	// private Set<ClimateService> climateServices = new
 //	// HashSet<ClimateService>();
 //
-//	public User() {
-//	}
-//
-//	public User(String userName, String password, String firstName,
-//			String lastName, String middleInitial, String affiliation,
-//			String title, String email, String mailingAddress,
-//			String phoneNumber, String faxNumber, String researchFields,
-//			String highestDegree) {
-//		super();
-//		this.userName = userName;
-//		this.password = password;
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.middleInitial = middleInitial;
-//		this.affiliation = affiliation;
-//		this.title = title;
-//		this.email = email;
-//		this.mailingAddress = mailingAddress;
-//		this.phoneNumber = phoneNumber;
-//		this.faxNumber = faxNumber;
-//		this.researchFields = researchFields;
-//		this.highestDegree = highestDegree;
-//	}
+	public User() {
+	}
+
+	public User(String userName, String password, String firstName,
+			String lastName, String middleInitial, String affiliation,
+			String title, String email, String mailingAddress,
+			String phoneNumber, String faxNumber, String researchFields,
+			String highestDegree) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleInitial = middleInitial;
+		this.affiliation = affiliation;
+		this.title = title;
+		this.email = email;
+		this.mailingAddress = mailingAddress;
+		this.phoneNumber = phoneNumber;
+		this.faxNumber = faxNumber;
+		this.researchFields = researchFields;
+		this.highestDegree = highestDegree;
+	}
 //
 //	public long getId() {
 //		return id;
@@ -129,94 +145,94 @@ public class User {
 //
 
 //
-//	public String getFirstName() {
-//		return firstName;
-//	}
-//
-//	public String getLastName() {
-//		return lastName;
-//	}
-//
-//	public String getMiddleInitial() {
-//		return middleInitial;
-//	}
-//
-//	public String getAffiliation() {
-//		return affiliation;
-//	}
-//
-//	public String getTitle() {
-//		return title;
-//	}
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getMiddleInitial() {
+		return middleInitial;
+	}
+
+	public String getAffiliation() {
+		return affiliation;
+	}
+
+	public String getTitle() {
+		return title;
+	}
 //
 
 //
-//	public String getMailingAddress() {
-//		return mailingAddress;
-//	}
+	public String getMailingAddress() {
+		return mailingAddress;
+	}
 //
-//	public String getPhoneNumber() {
-//		return phoneNumber;
-//	}
-//
-//	public String getFaxNumber() {
-//		return faxNumber;
-//	}
-//
-//	public String getResearchFields() {
-//		return researchFields;
-//	}
-//
-//	public String getHighestDegree() {
-//		return highestDegree;
-//	}
-//	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public String getFaxNumber() {
+		return faxNumber;
+	}
+
+	public String getResearchFields() {
+		return researchFields;
+	}
+
+	public String getHighestDegree() {
+		return highestDegree;
+	}
+	
 //	public void setId(long id) {
 //		this.id = id;
 //	}
 //
 //
-//	public void setFirstName(String firstName) {
-//		this.firstName = firstName;
-//	}
-//
-//	public void setLastName(String lastName) {
-//		this.lastName = lastName;
-//	}
-//
-//	public void setMiddleInitial(String middleInitial) {
-//		this.middleInitial = middleInitial;
-//	}
-//
-//	public void setAffiliation(String affiliation) {
-//		this.affiliation = affiliation;
-//	}
-//
-//	public void setTitle(String title) {
-//		this.title = title;
-//	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setMiddleInitial(String middleInitial) {
+		this.middleInitial = middleInitial;
+	}
+
+	public void setAffiliation(String affiliation) {
+		this.affiliation = affiliation;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 //
 
 //
-//	public void setMailingAddress(String mailingAddress) {
-//		this.mailingAddress = mailingAddress;
-//	}
-//
-//	public void setPhoneNumber(String phoneNumber) {
-//		this.phoneNumber = phoneNumber;
-//	}
-//
-//	public void setFaxNumber(String faxNumber) {
-//		this.faxNumber = faxNumber;
-//	}
-//
-//	public void setResearchFields(String researchFields) {
-//		this.researchFields = researchFields;
-//	}
-//
-//	public void setHighestDegree(String highestDegree) {
-//		this.highestDegree = highestDegree;
-//	}
+	public void setMailingAddress(String mailingAddress) {
+		this.mailingAddress = mailingAddress;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public void setFaxNumber(String faxNumber) {
+		this.faxNumber = faxNumber;
+	}
+
+	public void setResearchFields(String researchFields) {
+		this.researchFields = researchFields;
+	}
+
+	public void setHighestDegree(String highestDegree) {
+		this.highestDegree = highestDegree;
+	}
 //
 //	@Override
 //	public String toString() {

@@ -1,0 +1,167 @@
+@(user: User, posts: List[Post])
+
+@main("WorkFlow") {
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8">
+                            <h2>Adam Li</h2>
+                            <p><strong>About: </strong> Professor </p>
+                            <p><strong>Email: </strong> @user.getEmail() </p>
+                            <p><strong>Research Interests: </strong>
+                            </p>
+                        </div><!--/col-->          
+                        <div class="col-xs-12 col-sm-4 text-center">
+                            <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="" class="center-block img-circle img-responsive">
+                            <ul class="list-inline ratings text-center" title="Ratings">
+                                <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                            </ul>
+                        </div><!--/col-->
+
+                        <div class="col-xs-12 col-sm-4">
+                            <h2><strong> 20,7K </strong></h2>                    
+                            <p><small>Followers</small></p>
+                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Follow </button>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-4">
+                            <h2><strong>245</strong></h2>                    
+                            <p><small>Following</small></p>
+                            <button class="btn btn-info btn-block"><span class="fa fa-user"></span> View Profile </button>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-4">
+                            <h2><strong>43</strong></h2>                    
+                            <p><small>Snippets</small></p>
+                            <button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span> Options </button>  
+                        </div><!--/col-->
+                    </div><!--/row-->
+                </div><!--/panel-body-->
+            </div><!--/panel-->
+
+            @for(post <- posts){
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="media">
+                                    <div class="media-right">
+                                        <a href="#">
+                                            <img src="@post.getImage" alt="" width="100" height="100">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">@post.getTextHead</h4>
+                                        @post.getText
+                                    </div>
+                                </div>
+                            </div><!--/col-->
+                        </div><!--/row-->
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <button type="button" class="btn btn-default btn-lg">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Follow
+                                </button>
+                            </div><!--/col-->
+                            <div class="col-xs-12 col-sm-6">
+                                <button type="button" class="btn btn-default btn-lg">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+                                </button>
+                            </div><!--/col-->
+                        </div><!--/row-->
+
+
+                        <div class="row">
+                            @if(post.getTags!=null){
+                                @for(tag <- post.getTags) {
+                                    <span class="label label-info">@tag</span>
+                                }
+                            }
+                        <span class="label label-primary">Primary</span>
+                        <span class="label label-success">Success</span>
+                        <span class="label label-info">Info</span>
+                        <span class="label label-warning">Warning</span>
+                        <span class="label label-danger">Danger</span>
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
+                        </div><!--/row-->
+
+                    </div><!--/panel-body-->
+                </div><!--/panel-->
+            }
+
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            <h4 class="list-group-item-heading">Eating</h4>
+                            <p class="list-group-item-text">sichuan gourmet,How Lee...</p>
+                        </a>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            <h4 class="list-group-item-heading">Traveling</h4>
+                            <p class="list-group-item-text">Chicago,New York...</p>
+                        </a>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            <h4 class="list-group-item-heading">Playing</h4>
+                            <p class="list-group-item-text">DOTA,LOL...</p>
+                        </a>
+                    </div>
+                    <div class="form-group" align="center">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true">
+                            <a href='@routes.Application.signup()'></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            Friends
+                        </a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            Followers
+                        </a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            Families
+                        </a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+}
