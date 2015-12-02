@@ -36,10 +36,7 @@ import util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
 public class Friend {
-
 
     private String userName;
     private String firstName;
@@ -121,6 +118,5 @@ public class Friend {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 
 }

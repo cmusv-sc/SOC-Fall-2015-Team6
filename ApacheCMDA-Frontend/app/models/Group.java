@@ -1,14 +1,34 @@
 
 package models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import models.metadata.ClimateService;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.*;
+
+import play.data.validation.Constraints;
+import util.APICall;
+import util.Constants;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Group {
     public String Title;
     public String subtitle;
 
     public ArrayList friends;
-
 
     public Group(String title, String subt, ArrayList friends) {
         this.Title=title;
@@ -16,16 +36,12 @@ public class Group {
         this.friends = friends;
     }
 
-
     /**
      * TEST SET
      */
     static ArrayList<Friend> list1=new ArrayList<Friend>();
     static ArrayList<Friend> list2=new ArrayList<Friend>();
     static ArrayList<Friend> list3=new ArrayList<Friend>();
-
-
-
 
 
     public static List<Group> all() {
@@ -40,6 +56,7 @@ public class Group {
         list2.add(wo1);
         list3.add(wo2);
         list3.add(wo3);
+
 
         List<Group> groups = new ArrayList<Group>();
         groups.add(new Group("Eating", "indian shit,chinese shit", list1));

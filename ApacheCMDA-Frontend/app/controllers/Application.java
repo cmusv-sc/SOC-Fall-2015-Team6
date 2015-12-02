@@ -31,12 +31,10 @@ import play.mvc.*;
 import util.APICall;
 import util.APICall.ResponseType;
 import views.html.*;
-
 import play.data.*;
 import play.libs.Json;
 import play.*;
 import static play.data.Form.*;
-
 import models.*;
 import models.metadata.UserService;
 
@@ -162,7 +160,7 @@ public class Application extends Controller {
 			return ok(login.render(loginForm));
 		}
 		user = new User(session().get("email"), session().get("password"));
-
+		System.out.println(">>success");
 		//get all user information from backend
 
 		return ok(workflow_home.render(user));

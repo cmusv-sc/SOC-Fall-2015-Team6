@@ -53,6 +53,7 @@ public class User {
 	@Constraints.Required
 	private String firstName;
 	@Constraints.Required
+
 	private String lastName;
 	private String middleInitial;
 	private String affiliation;
@@ -63,7 +64,6 @@ public class User {
 	private String faxNumber;
 	private String researchFields;
 	private String highestDegree;
-
 
 	public User(String email, String password) {
 		this.email = email;
@@ -100,6 +100,7 @@ public class User {
 				String title, String email, String mailingAddress,
 				String phoneNumber, String faxNumber, String researchFields,
 				String highestDegree) {
+
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -121,7 +122,6 @@ public class User {
 //	}
 //
 
-	//
 	public String getFirstName() {
 		return firstName;
 	}
@@ -141,13 +141,11 @@ public class User {
 	public String getTitle() {
 		return title;
 	}
-//
 
-	//
 	public String getMailingAddress() {
 		return mailingAddress;
 	}
-	//
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -172,6 +170,7 @@ public class User {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

@@ -1,11 +1,7 @@
 package models.metadata;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
-import models.User;
 import util.APICall;
 import util.Constants;
 
@@ -18,6 +14,7 @@ public class UserService {
 	public static JsonNode verifyUserAuthentity(JsonNode jsonData) {
 		return APICall.postAPI(VERIFY_USER_CALL, jsonData);
 	}
+
 	public static JsonNode verifyUserSUAuthentity(JsonNode jsonData) {
 		return APICall.postAPI(VERIFY_USER_SINGUP, jsonData);
 	}
@@ -61,7 +58,5 @@ public class UserService {
 //		}
 //		return climateServices;
 //	}
-
-
 
 }

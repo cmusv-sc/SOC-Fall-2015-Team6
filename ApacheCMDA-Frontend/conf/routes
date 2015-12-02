@@ -9,6 +9,7 @@ GET 		/													 controllers.ClimateServiceController.home(email ?= null, vf
 
 
 
+
 GET			/login 												 controllers.Application.login()
 POST		/login											 	 controllers.Application.authenticate()
 
@@ -25,23 +26,6 @@ GET         /workflowHome/forum                                  controllers.For
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
 GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
