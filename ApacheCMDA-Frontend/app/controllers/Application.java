@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -39,73 +40,146 @@ import static play.data.Form.*;
 import models.*;
 import models.metadata.UserService;
 
+/**
+ * Created by Shuai Wang on 11/10/15.
+ */
 public class Application extends Controller {
-	
-	final static Form<Login> loginForm = form(Login.class).bindFromRequest();
-
+	final static Form<Login> loginForm = Form.form(Login.class);
+	final static Form<User> userForm = Form.form(User.class);
 	private static User user;
 
-	public static Result index() {
-		return ok(index.render(""));
-	}
-
+	//1st function: login
 	public static Result login() {
-		return ok(login.render(form(Login.class)));
+		return ok(login.render(loginForm));
 	}
-
 	public static class Login {
 
 		public String email;
 		public String password;
-		
-		public String validate() {
-			ObjectNode jsonData = Json.newObject();
 
-			jsonData.put("email", email);
-			jsonData.put("password", password);
+		public Login(){}
 
-			JsonNode response =	UserService.verifyUserAuthentity(jsonData);
-				
-			if (response == null) {
-				return "Invalid user or password.";
-			} else {
-				return null;
-			}
-		}	
+		public Login(String email,String password){
+			this.email=email;
+			this.password=password;
+		}
+		public String getEmail(){
+			return email;
+		}
+		public void setEmail(String email){
+			this.email=email;
+		}
+		public String getPassword(){
+			return password;
+		}
+		public void setPassword(String password){
+			this.password=password;
+		}
 	}
 
 	public static Result authenticate() {
-		
-		if (loginForm.hasErrors()) {
-			return badRequest(login.render(loginForm));
+		Form<Login> lg = loginForm.bindFromRequest();
+		ObjectNode jsonData = Json.newObject();
+		try{
+			jsonData.put("email", lg.get().getEmail());
+			jsonData.put("password", lg.get().getPassword());
+			JsonNode response =	UserService.verifyUserAuthentity(jsonData);
+//			if (response.get("success") == null) {
+//				System.out.println(">>input is invalid...");
+//				return badRequest(login.render(loginForm));
+//			}
+
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		
+
 		session().clear();
-		session("email", loginForm.get().email);
-		session("password", loginForm.get().password);
-		
+		session("email", lg.get().getEmail());
+		session("password", lg.get().getPassword());
+
 		return redirect(
 				routes.Application.workflowHome()
-				);
+		);
 	}
 
+
+	//2nd function: signup
+	public static Result signup() {
+		return ok(signup.render(userForm));
+	}
+
+	public static Result createNewUser(){
+		Form<User> nu = userForm.bindFromRequest();
+
+		ObjectNode jsonData = Json.newObject();
+		String userName = null;
+
+		try{
+			userName = nu.field("firstName").value()+" "+(nu.field("middleInitial")).value()
+					+" "+(nu.field("lastName")).value();
+			jsonData.put("userName", userName);
+			jsonData.put("firstName", nu.get().getFirstName());
+			jsonData.put("middleInitial", nu.get().getMiddleInitial());
+			jsonData.put("lastName", nu.get().getLastName());
+			jsonData.put("password", nu.get().getPassword());
+			jsonData.put("affiliation", nu.get().getAffiliation());
+			jsonData.put("title", nu.get().getTitle());
+			jsonData.put("email", nu.get().getEmail());
+			jsonData.put("mailingAddress", nu.get().getMailingAddress());
+			jsonData.put("phoneNumber", nu.get().getPhoneNumber());
+			jsonData.put("faxNumber", nu.get().getFaxNumber());
+			jsonData.put("researchFields", nu.get().getResearchFields());
+			jsonData.put("highestDegree", nu.get().getHighestDegree());
+
+			JsonNode response = UserService.verifyUserSUAuthentity(jsonData);
+
+			// flash the response message
+			Application.flashMsg(response);
+			return redirect(routes.Application.createSuccess());
+
+		}catch (IllegalStateException e) {
+			e.printStackTrace();
+			Application.flashMsg(APICall
+					.createResponse(ResponseType.CONVERSIONERROR));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Application.flashMsg(APICall
+					.createResponse(ResponseType.UNKNOWN));
+		}
+		return ok(signup.render(nu));
+	}
+
+	public static Result createSuccess(){
+		return ok(createSuccess.render());
+	}
+
+
+
+	//3rd function: redirect to workflow home page
 	public static Result workflowHome() {
 		if(session().isEmpty()) {
+			System.out.println(">>session is empty");
 			return ok(login.render(loginForm));
 		}
-	
 		user = new User(session().get("email"), session().get("password"));
-		//call backend, get user all information.
-		
+
+		//get all user information from backend
+
 		return ok(workflow_home.render(user));
 	}
 
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+	// no use
 //	public static void sessionMsg(JsonNode jsonNode) {
 //		session().clear();
 //		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
@@ -114,7 +188,12 @@ public class Application extends Controller {
 //			session(field.getKey(), field.getValue().asText());
 //		}
 //	}
-//	
+
+	//useless
+	public static Result index() {
+		return ok(index.render(""));
+	}
+
 	public static void flashMsg(JsonNode jsonNode) {
 		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
 		while (it.hasNext()) {

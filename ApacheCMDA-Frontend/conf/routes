@@ -8,10 +8,44 @@ GET 		/													 controllers.ClimateServiceController.home(email ?= null, vf
 
 
 
+
 GET			/login 												 controllers.Application.login()
 POST		/login											 	 controllers.Application.authenticate()
 
+GET			/createNewUser										 controllers.Application.createNewUser()
+GET			/signup										 		 controllers.Application.signup()
+GET			/createSuccess										 controllers.Application.createSuccess()
+
 GET			/workflowHome										 controllers.Application.workflowHome()
+GET			/workflowHome/createNewWorkflow						 controllers.WorkflowController.createNewWorkFlow()
+
+GET         /workflowHome/viewAllWorkflows                       controllers.WorkflowController.viewAllWorkflows()
+
+GET         /workflowHome/forum                                  controllers.ForumController.startDiscuss()
+
+GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
+GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

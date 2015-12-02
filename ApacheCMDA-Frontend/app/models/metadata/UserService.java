@@ -10,14 +10,18 @@ import util.APICall;
 import util.Constants;
 
 public class UserService {
-	
+
 	private static final String VERIFY_USER_CALL = Constants.NEW_BACKEND+"home/login";
+	private static final String VERIFY_USER_SINGUP = Constants.NEW_BACKEND+"home/register";
 	private static final String GET_ALL_USER_CALL = Constants.NEW_BACKEND+"userService/getAllUserServices/json";
-	
+
 	public static JsonNode verifyUserAuthentity(JsonNode jsonData) {
 		return APICall.postAPI(VERIFY_USER_CALL, jsonData);
 	}
-	
+	public static JsonNode verifyUserSUAuthentity(JsonNode jsonData) {
+		return APICall.postAPI(VERIFY_USER_SINGUP, jsonData);
+	}
+
 //	public User getUserByEmail(String email) {
 //		
 //		List<User> allList = getAll();
@@ -57,7 +61,7 @@ public class UserService {
 //		}
 //		return climateServices;
 //	}
-	
-	
+
+
 
 }
