@@ -88,7 +88,7 @@ public class ClimateServiceController extends Controller {
 			if (newClimateServiceName != null && !newClimateServiceName.isEmpty()) {
 				jsonData.put("name", newClimateServiceName);
 			}
-			
+
 			jsonData.put("creatorId", 1);
 			jsonData.put("purpose", dc.field("Purpose").value());
 			jsonData.put("url", dc.field("Url").value());
@@ -98,6 +98,7 @@ public class ClimateServiceController extends Controller {
 			jsonData.put("scenario", dc.field("Scenario").value());
 			jsonData.put("versionNo", dc.field("Version").value());
 			jsonData.put("rootServiceId", dc.field("Root_Service").value());
+
 			JsonNode response = ClimateService.create(jsonData);
 			Application.flashMsg(response);
 		} catch (IllegalStateException e) {

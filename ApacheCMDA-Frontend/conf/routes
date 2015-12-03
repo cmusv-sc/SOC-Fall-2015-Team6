@@ -18,8 +18,11 @@ GET			/signup										 		 controllers.Application.signup()
 GET			/createSuccess										 controllers.Application.createSuccess()
 
 GET			/workflowHome										 controllers.Application.workflowHome()
-GET			/workflowHome/createNewWorkflow						 controllers.WorkflowController.createNewWorkFlow()
+GET			/workflowHome/newWorkflow						     controllers.WorkflowController.newWorkflow()
+POST		/workflowHome/createNewWorkflow						 controllers.WorkflowController.createNewWorkflow()
+GET			/workflowHome/oneWorkflow						     controllers.WorkflowController.oneWorkflowService(url ?= null)
 
+POST		/workflowHome/download/workflowServices				 controllers.WorkflowController.downloadWorkflowService()
 GET         /workflowHome/viewAllWorkflows                       controllers.WorkflowController.viewAllWorkflows()
 
 GET         /workflowHome/forum                                  controllers.ForumController.startDiscuss()
@@ -52,7 +55,9 @@ GET			/climate/climateServices							controllers.ClimateServiceController.climat
 GET			/climate/mostRecentlyAddedClimateServices			controllers.ClimateServiceController.mostRecentlyAddedClimateServices()
 GET			/climate/mostRecentlyUsedClimateServices			controllers.ClimateServiceController.mostRecentlyUsedClimateServices()
 GET			/climate/mostPopularClimateServices					controllers.ClimateServiceController.mostPopularClimateServices()
+
 POST		/climate/new/climateServices    					controllers.ClimateServiceController.newClimateService()
+
 POST    	/climate/delete/climateServices   					controllers.ClimateServiceController.deleteClimateService()
 POST		/climate/download/climateServices					controllers.ClimateServiceController.downloadClimateService()
 POST		/climate/edit/climateServices						controllers.ClimateServiceController.editClimateService()
