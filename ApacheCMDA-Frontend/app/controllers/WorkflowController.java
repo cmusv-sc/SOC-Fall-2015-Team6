@@ -71,7 +71,7 @@ public class WorkflowController extends Controller {
             jsonData.put("links", dc.field("Links").value());
             jsonData.put("instructions", dc.field("Instructions").value());
             jsonData.put("datasets", dc.field("Datasets").value());
-            jsonData.put("attributeWorkflowId", dc.field("AttributeWorkflowId").value());
+            jsonData.put("attributeWorkflow", dc.field("AttributeWorkflow").value());
 
 
 			JsonNode response = WorkflowService.create(jsonData);

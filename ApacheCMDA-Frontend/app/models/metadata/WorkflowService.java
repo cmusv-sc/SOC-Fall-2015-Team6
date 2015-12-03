@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonObject;
 import play.libs.Json;
+import scala.collection.immutable.Stream;
 import util.Constants;
 import util.APICall;
 
@@ -36,10 +37,25 @@ public class WorkflowService {
 
 
     private static final String ADD_WORKFLOW_CALL = Constants.NEW_BACKEND+"/workflow/addWorkflow";
-    private static final String ADD_ATTRIBUTEWORKFLOW_CALL = Constants.NEW_BACKEND + "/workflow/addAttributeWorkflowToWorkflow";
     private static final String ADD_TASK_CALL = Constants.NEW_BACKEND + "/task/addTask";
+    private static final String ADD_TASK_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/task/addTaskToWorkflow";
+    private static final String ADD_INPUT_CALL = Constants.NEW_BACKEND + "/input/addInput";
+    private static final String ADD_INPUT_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/input/addInputToWorkflow";
+    private static final String ADD_OUTPUT_CALL = Constants.NEW_BACKEND + "/output/addOutput";
+    private static final String ADD_OUTPUT_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/output/addOutputToWorkflow";
+    private static final String ADD_INSTRUCTION_CALL = Constants.NEW_BACKEND + "/instruction/addInstruction";
+    private static final String ADD_INSTRUCTION_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/instruction/addInstructionToWorkflow";
+    private static final String ADD_DATASET_CALL = Constants.NEW_BACKEND + "/datasetV2/addDataset";
+    private static final String ADD_DATASET_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/datasetV2/addDatasetToWorkflow";
+    private static final String ADD_LINK_CALL = Constants.NEW_BACKEND + "/link/addLink";
+    private static final String ADD_LINK_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/link/addLinkToWorkflow";
+    private static final String ADD_TAG_CALL = Constants.NEW_BACKEND + "/tag/addTag";
+    private static final String ADD_TAG_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/workflow/addTagToWorkflow";
 
+    private static final String GET_WORKFLOW_BY_NAME_CALL = Constants.NEW_BACKEND + "/workflow/getWorkflowIdByName";
+    private static final String ADD_ATTRIBUTEWORKFLOW_CALL = Constants.NEW_BACKEND + "/workflow/addAttributeWorkflowToWorkflow";
 
+    private static final String GET_WORKFLOW_BY_ID_CALL = Constants.NEW_BACKEND + "/workflow/getWorkflow";
     private static final String GET_WORKFLOWS_CALL = Constants.NEW_BACKEND+"/workflow/getAllWorkflows";
 
     public static JsonNode create(JsonNode jsonData) {
@@ -48,26 +64,123 @@ public class WorkflowService {
         JsonNode addResponse = APICall.postAPI(ADD_WORKFLOW_CALL, jsonData);
         String workflowId = addResponse.get("workflowId").asText();
 
-        //add attribute workflow, get all information of it
-        JsonNode attWfResponse = APICall.postAPI(ADD_ATTRIBUTEWORKFLOW_CALL, jsonData);
-        attWfResponse.path("attributeWorkflows");
 
-
+        //add task, get taskID
+        String[] taskDes = jsonData.path("tasks").asText().split(":");
         ObjectNode taskJson = Json.newObject();
-        String[] taskDes = taskJson.path("tasks").asText().split(":");
         taskJson.put("name", taskDes[0]);
         taskJson.put("description", taskDes[1]);
         JsonNode addTaskResponse = APICall.postAPI(ADD_TASK_CALL, taskJson);
         String taskId = addTaskResponse.path("taskId").asText();
+        //add task to workflow
+        ObjectNode addTaskToWfJson = Json.newObject();
+        addTaskToWfJson.put("taskId", taskId);
+        addTaskToWfJson.put("workflowId", workflowId);
+        JsonNode addTaskToWfResponse = APICall.postAPI(ADD_TASK_TO_WORKFLOW_CALL, addTaskToWfJson);
+
+
+        //add input, get inputId
+        String[] inputDes = jsonData.path("inputs").asText().split(":");
+        ObjectNode inputJason = Json.newObject();
+        inputJason.put("name", inputDes[0]);
+        inputJason.put("description", inputDes[1]);
+        JsonNode inputResponse = APICall.postAPI(ADD_INPUT_CALL, inputJason);
+        String inputId = inputResponse.path("inputId").asText();
+        // add input to workflow
+        ObjectNode addInputToWfJson = Json.newObject();
+        addInputToWfJson.put("inputId", inputId);
+        addInputToWfJson.put("workflowId", workflowId);
+        JsonNode addInputToWfResponse = APICall.postAPI(ADD_INPUT_TO_WORKFLOW_CALL, addInputToWfJson);
 
 
 
+        //add output, get outputId
+        String[] outputDes = jsonData.path("outputs").asText().split(":");
+        ObjectNode outputJason = Json.newObject();
+        outputJason.put("name", outputDes[0]);
+        outputJason.put("description", outputDes[1]);
+        JsonNode outputResponse = APICall.postAPI(ADD_OUTPUT_CALL, outputJason);
+        String outputId = outputResponse.path("outputId").asText();
+        // add output to workflow
+        ObjectNode addOutputToWfJson = Json.newObject();
+        addOutputToWfJson.put("outputId", outputId);
+        addOutputToWfJson.put("workflowId", workflowId);
+        JsonNode addOutputToWfResponse = APICall.postAPI(ADD_OUTPUT_TO_WORKFLOW_CALL, addOutputToWfJson);
+
+
+        //add instructions, get instructionId
+        String[] instruDes = jsonData.path("instructions").asText().split(":");
+        ObjectNode insJson = Json.newObject();
+        insJson.put("name", instruDes[0]);
+        insJson.put("description", instruDes[1]);
+        JsonNode instruResponse = APICall.postAPI(ADD_INSTRUCTION_CALL, insJson);
+        String instrucId = instruResponse.path("instructionId").asText();
+        // add instruction to workflow
+        ObjectNode addInstruToWfJson = Json.newObject();
+        addInstruToWfJson.put("instructionId", instrucId);
+        addInstruToWfJson.put("workflowId", workflowId);
+        JsonNode addInstruToWfResponse = APICall.postAPI(ADD_INSTRUCTION_TO_WORKFLOW_CALL, addInstruToWfJson);
+
+
+        //add dataset, get datasetId
+        String[] datasetArr = jsonData.path("datasets").asText().split(":");
+        ObjectNode dsJson = Json.newObject();
+        dsJson.put("name", datasetArr[0]);
+        dsJson.put("content", datasetArr[1]);
+        JsonNode dsResponse = APICall.postAPI(ADD_DATASET_CALL, dsJson);
+        String dsId = dsResponse.path("datasetId").asText();
+        // add dataset to workflow
+        ObjectNode addDsToWfJson = Json.newObject();
+        addDsToWfJson.put("datasetId", dsId);
+        addDsToWfJson.put("workflowId", workflowId);
+        JsonNode addDsToWfResponse = APICall.postAPI(ADD_DATASET_TO_WORKFLOW_CALL, addDsToWfJson);
+
+
+        //add link, get LinkId
+        String[] linkArr = jsonData.path("links").asText().split(",");
+        ObjectNode linkJson = Json.newObject();
+        linkJson.put("source", linkArr[0]);
+        linkJson.put("sink", linkArr[1]);
+        JsonNode linkResponse = APICall.postAPI(ADD_LINK_CALL, linkJson);
+        String linkId = linkResponse.path("linkId").asText();
+        // add link to workflow
+        ObjectNode addLinkToWfJson = Json.newObject();
+        addLinkToWfJson.put("linkId", linkId);
+        addLinkToWfJson.put("workflowId", workflowId);
+        JsonNode addLinkToWfResponse = APICall.postAPI(ADD_LINK_TO_WORKFLOW_CALL, addLinkToWfJson);
+
+
+        //add tag, get tagId
+        ObjectNode tagJson = Json.newObject();
+        tagJson.put("name", jsonData.path("tags").asText());
+        JsonNode tagResponse = APICall.postAPI(ADD_TAG_CALL, tagJson);
+        String tagId = tagResponse.path("tagId").asText();
+        // add tag to workflow
+        ObjectNode addTagToWfJson = Json.newObject();
+        addTagToWfJson.put("tagId", tagId);
+        addTagToWfJson.put("workflowId", workflowId);
+        JsonNode addTagToWfResponse = APICall.postAPI(ADD_TAG_TO_WORKFLOW_CALL, addTagToWfJson);
+
+
+        //add attribute workflow
+        ObjectNode attJson = Json.newObject();
+        attJson.put("name", jsonData.path("attributeWorkflow").asText());
+        JsonNode attResponse = APICall.postAPI(GET_WORKFLOW_BY_NAME_CALL, attJson);
+        String attWfId = attResponse.path("workflowId").asText();
+        //add attribute workflow to workflow
+        ObjectNode addAttToWfJson = Json.newObject();
+        addAttToWfJson.put("attributeWorkflowId", attWfId);
+        addAttToWfJson.put("workflowId", workflowId);
+        JsonNode addAttToWfResponse = APICall.postAPI(ADD_ATTRIBUTEWORKFLOW_CALL, addAttToWfJson);
 
 
 
+        //get workflow
+        ObjectNode getJson = Json.newObject();
+        getJson.put("workflowId", workflowId);
+        JsonNode getResponse = APICall.postAPI(GET_WORKFLOW_BY_ID_CALL, getJson);
 
-
-        return null;
+        return getResponse;
     }
 
 
@@ -83,17 +196,17 @@ public class WorkflowService {
             JsonNode json = node.path(i);
             WorkflowService wfs = new WorkflowService();
 
-            wfs.setName(json.get("name").asText());
-            wfs.setDescription(json.path("description").asText());
-            wfs.setUrl(json.get("url").asText());
-            wfs.setTasks(json.path("tasks").asText());
-
-            wfs.setInput(json.path("input").asText());
-            wfs.setOutput(json.path("output").asText());
-            wfs.setContributors(json.path("contributors").asText());
-            wfs.setTags(json.path("tags").asText());
-            wfs.setLinks(json.path("links").asText());
-            wfs.setInstructions(json.path("instructions").asText());
+//            wfs.setName(json.get("name").asText());
+//            wfs.setDescription(json.path("description").asText());
+//            wfs.setUrl(json.get("url").asText());
+//            wfs.setTasks(json.path("tasks").asText());
+//
+//            wfs.setInput(json.path("input").asText());
+//            wfs.setOutput(json.path("output").asText());
+//            wfs.setContributors(json.path("contributors").asText());
+//            wfs.setTags(json.path("tags").asText());
+//            wfs.setLinks(json.path("links").asText());
+//            wfs.setInstructions(json.path("instructions").asText());
 
             allWorkflows.add(wfs);
         }
