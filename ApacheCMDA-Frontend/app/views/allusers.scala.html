@@ -1,41 +1,33 @@
-@(groups : List[Group])
+@(users : List[User])
 
     @main("Profile") {
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    @for(group <- groups){
                     <div class="panel panel-default">
                         <div class="panel-body">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12">
-                                        <h2>@group.getTitle</h2>
+                                        <h2>All USERS</h2>
                                     </div>
                                 </div><!--/row-->
-                                @for(user <- group.getFriends) {
+                                @for(user <- users) {
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-2">
-                                            <h4>@user.getName()</h4>
+                                            <h4>@user.getUserName()</h4>
                                         </div>
 
                                         <div class="col-xs-12 col-sm-2">
-                                            <p><small> Unfriend </small></p>
+                                            <p><small> Friend </small></p>
                                             <button type="submit" class="btn btn-success btn-block">
                                                 <a href='@routes.WorkflowController.newWorkflow()'> New Workflow </a>
                                             </button>
                                         </div><!--/col-->
 
                                         <div class="col-xs-12 col-sm-2">
-                                            <p><small> Unsubscribe </small></p>
+                                            <p><small> Subscribe </small></p>
                                             <button type="submit" class="btn btn-danger btn-block">
-                                                <a href='@routes.WorkflowController.viewAllWorkflows()'> View Workflows </a>
-                                            </button>
-                                        </div><!--/col-->
-
-                                        <div class="col-xs-12 col-sm-2">
-                                            <p><small> Add to Group </small></p>
-                                            <button type="submit" class="btn btn-toolbar btn-block">
                                                 <a href='@routes.WorkflowController.viewAllWorkflows()'> View Workflows </a>
                                             </button>
                                         </div><!--/col-->
@@ -43,7 +35,6 @@
                                 }
                         </div><!--/panel-body-->
                     </div><!--/panel-->
-                    }
                 </div>
             </div>
         </div>

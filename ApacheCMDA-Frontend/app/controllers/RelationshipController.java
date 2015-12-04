@@ -27,6 +27,6 @@ public class RelationshipController extends Controller {
     }
 
     public static Result getGroup() {
-        return ok(groups.render("group"));
+        return ok(groups.render(Group.all()));
     }
 }

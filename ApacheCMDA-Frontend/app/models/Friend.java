@@ -44,11 +44,48 @@ public class Friend {
     private String title;
     private String email;
     private String phoneNumber;
+    private Integer id;
 
 
 
-    public Friend(String username) {
+    public Friend(String username, int id) {
         this.userName=username;
+        this.id = id;
+    }
+
+    public static List<Friend> all() {
+        List<Friend> friends = new ArrayList<Friend>();
+        friends.add(new Friend("Sam", 1));
+        friends.add(new Friend("Sam2", 2));
+        friends.add(new Friend("Sam3", 3));
+        friends.add(new Friend("Sam4", 4));
+        friends.add(new Friend("Sam5", 5));
+        friends.add(new Friend("Sam6", 6));
+
+        /*
+        JsonNode postsNode = APICall
+                .callAPI(GET_POSTS_CALL);
+
+        if (postsNode == null || postsNode.has("error")
+                || !postsNode.isArray()) {
+            return posts;
+        }
+
+        for (int i = 0; i < postsNode.size(); i++) {
+            JsonNode json = postsNode.path(i);
+            Post post = new Post(json.path("image").asText(),json.path("text").asText(),json.path("title").asText());
+            posts.add(post);
+        }
+        */
+        return friends;
+    }
+
+    public String getName(){
+        return this.userName;
+    }
+
+    public Integer getID() {
+        return this.id;
     }
 
     public String getEmail() {
@@ -59,11 +96,6 @@ public class Friend {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
-
-
-
 
     public Friend() {
     }

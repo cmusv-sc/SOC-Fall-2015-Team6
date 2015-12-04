@@ -95,6 +95,20 @@ public class User {
 	public User() {
 	}
 
+	static public ArrayList<User> getAllUser() {
+		ArrayList<User> users = new ArrayList<User>();
+		User user1 = new User();
+		user1.userName = "user1";
+
+		User user2 = new User();
+		user2.userName = "user2";
+
+		users.add(user1);
+		users.add(user2);
+
+		return users;
+	}
+
 	public User(String userName, String password, String firstName,
 				String lastName, String middleInitial, String affiliation,
 				String title, String email, String mailingAddress,
@@ -121,7 +135,9 @@ public class User {
 //		return id;
 //	}
 //
-
+	public String getUserName() {
+		return this.userName;
+	}
 	public String getFirstName() {
 		return firstName;
 	}

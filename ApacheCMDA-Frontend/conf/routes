@@ -29,10 +29,11 @@ GET         /workflowHome/forum                                  controllers.For
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
 GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
+GET			/workflowHome/editUser 								    controllers.UserController.showUser(name ?= null, id: Int)
+POST		/workflowHome/editUser								    controllers.UserController.showUser(name ?= null,id: Int)
 
-
-
-
+GET			/workflowHome/group 									controllers.GroupController.showGroups()
+GET			/workflowHome/allusers 									controllers.UserController.showAllUser()
 
 
 

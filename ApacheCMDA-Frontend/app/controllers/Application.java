@@ -163,7 +163,7 @@ public class Application extends Controller {
 		System.out.println(">>success");
 		//get all user information from backend
 
-		return ok(workflow_home.render(user));
+		return ok(workflow_home.render(user, Post.all(), Friend.all()));
 	}
 
 
