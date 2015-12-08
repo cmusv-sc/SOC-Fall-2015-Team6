@@ -81,12 +81,12 @@ public class Application extends Controller {
 		try{
 			jsonData.put("email", lg.get().getEmail());
 			jsonData.put("password", lg.get().getPassword());
-			JsonNode response =	UserService.verifyUserAuthentity(jsonData);
-//			if (response.get("success") == null) {
-//				System.out.println(">>input is invalid...");
-//				return badRequest(login.render(loginForm));
-//			}
 
+			JsonNode response =	UserService.verifyUserAuthentity(jsonData);
+			if (response.get("success") == null) {
+				System.out.println(">>input is invalid...");
+				return badRequest(login.render(loginForm));
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -99,7 +99,6 @@ public class Application extends Controller {
 				routes.Application.workflowHome()
 		);
 	}
-
 
 	//2nd function: signup
 	public static Result signup() {
@@ -115,6 +114,7 @@ public class Application extends Controller {
 		try{
 			userName = nu.field("firstName").value()+" "+(nu.field("middleInitial")).value()
 					+" "+(nu.field("lastName")).value();
+
 			jsonData.put("userName", userName);
 			jsonData.put("firstName", nu.get().getFirstName());
 			jsonData.put("middleInitial", nu.get().getMiddleInitial());
@@ -131,8 +131,8 @@ public class Application extends Controller {
 
 			JsonNode response = UserService.verifyUserSUAuthentity(jsonData);
 
-			// flash the response message
-			Application.flashMsg(response);
+			System.out.println(">>>>id: " + response.path("userId").asText());
+
 			return redirect(routes.Application.createSuccess());
 
 		}catch (IllegalStateException e) {
@@ -151,8 +151,6 @@ public class Application extends Controller {
 		return ok(createSuccess.render());
 	}
 
-
-
 	//3rd function: redirect to workflow home page
 	public static Result workflowHome() {
 		if(session().isEmpty()) {
@@ -160,8 +158,37 @@ public class Application extends Controller {
 			return ok(login.render(loginForm));
 		}
 		user = new User(session().get("email"), session().get("password"));
+
 		System.out.println(">>success");
 		//get all user information from backend
+
+		ObjectNode jsonData = Json.newObject();
+		jsonData.put("email", session().get("email"));
+		JsonNode response = UserService.getUserByEmail(jsonData);
+
+		Application.sessionMsg(response);
+
+		//test purpose
+//		System.out.println("********************");
+//		System.out.println(session().get("userId"));
+//		System.out.println(session().get("userName"));
+//		System.out.println(session().get("title"));
+//		System.out.println(session().get("researchFields"));
+//		System.out.println(session().get("affiliation"));
+//		System.out.println(session().get("faxNumber"));
+//		System.out.println("********************");
+
+		//supplement user information
+		user.setUserId(response.path("userId").asText());
+		user.setUserName(response.path("userName").asText());
+		user.setTitle(response.path("title").asText());
+		user.setResearchFields(response.path("researchFields").asText());
+		user.setMailingAddress(response.path("mailingAddress").asText());
+
+		user.setAffiliation(response.path("affiliation").asText());
+		user.setFaxNumber(response.path("faxNumber").asText());
+		user.setPhoneNumber(response.path("phoneNumber").asText());
+		user.setHighestDegree(response.path("highestDegree").asText());
 
 		return ok(workflow_home.render(user, Post.all(), Friend.all()));
 	}
@@ -178,14 +205,14 @@ public class Application extends Controller {
 
 
 	// no use
-//	public static void sessionMsg(JsonNode jsonNode) {
-//		session().clear();
-//		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
-//		while (it.hasNext()) {
-//			Entry<String, JsonNode> field = it.next();
-//			session(field.getKey(), field.getValue().asText());
-//		}
-//	}
+	public static void sessionMsg(JsonNode jsonNode) {
+		session().clear();
+		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
+		while (it.hasNext()) {
+			Entry<String, JsonNode> field = it.next();
+			session(field.getKey(), field.getValue().asText());
+		}
+	}
 
 	//useless
 	public static Result index() {

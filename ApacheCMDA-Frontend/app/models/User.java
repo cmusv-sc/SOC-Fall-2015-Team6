@@ -41,6 +41,8 @@ public class User {
 //	@GeneratedValue(strategy = GenerationType.AUTO)
 //	private long id;
 
+	private String userId;
+
 	@Id
 	private String userName;
 	@Constraints.Required
@@ -48,14 +50,12 @@ public class User {
 	@Constraints.Required
 	public String password;
 
-
-
 	@Constraints.Required
 	private String firstName;
 	@Constraints.Required
-
 	private String lastName;
 	private String middleInitial;
+
 	private String affiliation;
 	private String title;
 	@Constraints.Required
@@ -65,48 +65,13 @@ public class User {
 	private String researchFields;
 	private String highestDegree;
 
+	public User() {
+
+	}
+
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-//	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
-//	// private Set<ClimateService> climateServices = new
-//	// HashSet<ClimateService>();
-//
-	public User() {
-	}
-
-	static public ArrayList<User> getAllUser() {
-		ArrayList<User> users = new ArrayList<User>();
-		User user1 = new User();
-		user1.userName = "user1";
-
-		User user2 = new User();
-		user2.userName = "user2";
-
-		users.add(user1);
-		users.add(user2);
-
-		return users;
 	}
 
 	public User(String userName, String password, String firstName,
@@ -130,14 +95,23 @@ public class User {
 		this.researchFields = researchFields;
 		this.highestDegree = highestDegree;
 	}
-//
-//	public long getId() {
-//		return id;
-//	}
-//
-	public String getUserName() {
-		return this.userName;
+
+	public String getEmail() {
+		return email;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -178,15 +152,9 @@ public class User {
 		return highestDegree;
 	}
 
-	//	public void setId(long id) {
-//		this.id = id;
-//	}
-
-
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -224,17 +192,35 @@ public class User {
 		this.highestDegree = highestDegree;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "User [id=" + id + ", userName=" + userName + ", password="
-//				+ password + ", firstName=" + firstName + ", lastName="
-//				+ lastName + ", middleInitial=" + middleInitial
-//				+ ", affiliation=" + affiliation + ", title=" + title
-//				+ ", email=" + email + ", mailingAddress=" + mailingAddress
-//				+ ", phoneNumber=" + phoneNumber + ", faxNumber=" + faxNumber
-//				+ ", researchFields=" + researchFields + ", highestDegree="
-//				+ highestDegree + "]";
-//	}
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+		static public ArrayList<User> getAllUser() {
+		ArrayList<User> users = new ArrayList<User>();
+		User user1 = new User();
+		user1.userName = "user1";
+
+		User user2 = new User();
+		user2.userName = "user2";
+
+		users.add(user1);
+		users.add(user2);
+
+		return users;
+	}
 
 }
 

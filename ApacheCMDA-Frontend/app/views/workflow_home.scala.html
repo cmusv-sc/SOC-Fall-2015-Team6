@@ -10,10 +10,11 @@
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-8">
-                                    <h2>Adam Li</h2>
-                                    <p><strong>About: </strong> Professor </p>
+                                    <h2>Name: @user.getUserName()</h2>
+                                    <p><strong>Title: </strong> @user.getTitle() </p>
                                     <p><strong>Email: </strong> @user.getEmail() </p>
-                                    <p><strong>Research Interests: </strong> 18655 </p>
+                                    <p><strong>Research Interests: </strong> @user.getResearchFields() </p>
+                                    <p><strong>Address: </strong> @user.getMailingAddress() </p>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 text-center">
                                     <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="" class="center-block img-circle img-responsive">

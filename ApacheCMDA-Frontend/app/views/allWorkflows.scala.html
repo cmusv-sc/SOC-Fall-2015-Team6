@@ -20,52 +20,40 @@
         <table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
         <thead>
     <tr>
-        <th class="col-md-2">Workflow Service Name</td>
-        <th class="col-md-4">Description</td>
+        <th class="col-md-2">Workflow ID</td>
+        <th class="col-md-2">Name</td>
+        <th class="col-md-3">Description</td>
         <th class="col-md-2">Image Url</td>
-        <th class="col-md-2">Input</td>
-        <th class="col-md-2">Output</td>
-        <th class="col-md-2">Contributors</td>
-        <th class="col-md-2">Tags</td>
-        <th class="col-md-2">Links</td>
-        <th class="col-md-2">Instructions</td>
+        <th class="col-md-2">Usage Count</td>
+        <th class="col-md-2">View Count</td>
+        <th class="col-md-2">Popularity</td>
     </tr>
     </thead>
 
-
     @for(workflow <- workflows){
         <tr>
+            <td><font size="2">
+                <a href="/workflow/@oneWorkflow.getWfId()">
+            @workflow.getWfId()</font></td>
 
-            <td><font size="3">
+            <td><font size="2">
             @workflow.getName()</font></td>
 
-            <td><font size="3">
+            <td><font size="4">
             @workflow.getDescription() </font></td>
 
             <td class = "text-center" >
                 <a href = "@{workflow.getUrl()}">
-                    <img src='@workflow.getPhoto()' style="height: 150px; width: 150px" >
-                </a></td>
+                    @workflow.getUrl()</a></td>
 
-            <td><font size="3">
-            @workflow.getInput() </font></td>
+            <td><font size="2">
+            @workflow.getUsageCount() </font></td>
 
-            <td><font size="3">
-            @workflow.getOutput() </font></td>
+            <td><font size="2">
+            @workflow.getViewCount() </font></td>
 
-            <td><font size="3">
-            @workflow.getContributors() </font></td>
-
-            <td><font size="3">
-            @workflow.getTags() </font></td>
-
-            <td><font size="3">
-                <a href = "@{workflow.getLinks()}">
-                @workflow.getLinks() </a></font></td>
-
-            <td><font size="3">
-            @workflow.getInstructions() </font></td>
-
+            <td><font size="2">
+            @workflow.getPopularity() </font></td>
         </tr>
     }
     </table>

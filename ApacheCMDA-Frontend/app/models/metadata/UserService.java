@@ -2,14 +2,21 @@ package models.metadata;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import play.libs.Json;
 import util.APICall;
 import util.Constants;
 
 public class UserService {
 
-	private static final String VERIFY_USER_CALL = Constants.NEW_BACKEND+"home/login";
-	private static final String VERIFY_USER_SINGUP = Constants.NEW_BACKEND+"home/register";
-	private static final String GET_ALL_USER_CALL = Constants.NEW_BACKEND+"userService/getAllUserServices/json";
+	private static final String VERIFY_USER_CALL = Constants.NEW_BACKEND+"user/login";
+	private static final String VERIFY_USER_SINGUP = Constants.NEW_BACKEND+"user/addUser";
+
+//	private static final String GET_ALL_USER_CALL = Constants.NEW_BACKEND+"userService/getAllUserServices/json";
+
+	private static final String GET_USERID_BY_EMAIL = Constants.NEW_BACKEND+"user/getUserIdByEmail";
+	private static final String GET_USER_BY_ID = Constants.NEW_BACKEND+"user/getUser";
+
 
 	public static JsonNode verifyUserAuthentity(JsonNode jsonData) {
 		return APICall.postAPI(VERIFY_USER_CALL, jsonData);
@@ -17,6 +24,16 @@ public class UserService {
 
 	public static JsonNode verifyUserSUAuthentity(JsonNode jsonData) {
 		return APICall.postAPI(VERIFY_USER_SINGUP, jsonData);
+	}
+
+	public static JsonNode getUserByEmail(JsonNode jsonData) {
+		JsonNode idResponse = APICall.postAPI(GET_USERID_BY_EMAIL, jsonData);
+		String id = idResponse.path("userId").asText();
+
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", id);
+
+		return APICall.postAPI(GET_USER_BY_ID, userData);
 	}
 
 //	public User getUserByEmail(String email) {

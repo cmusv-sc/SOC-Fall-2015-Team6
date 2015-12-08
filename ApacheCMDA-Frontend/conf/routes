@@ -20,20 +20,21 @@ GET			/createSuccess										 controllers.Application.createSuccess()
 GET			/workflowHome										 controllers.Application.workflowHome()
 GET			/workflowHome/newWorkflow						     controllers.WorkflowController.newWorkflow()
 POST		/workflowHome/createNewWorkflow						 controllers.WorkflowController.createNewWorkflow()
-GET			/workflowHome/oneWorkflow						     controllers.WorkflowController.oneWorkflowService(url ?= null)
+
+GET         /workflowHome/viewAllWorkflows                       controllers.WorkflowController.viewAllWorkflows()
+GET			/workflowHome/oneWorkflow						     controllers.WorkflowController.oneWorkflowService(id ?= null)
 
 POST		/workflowHome/download/workflowServices				 controllers.WorkflowController.downloadWorkflowService()
-GET         /workflowHome/viewAllWorkflows                       controllers.WorkflowController.viewAllWorkflows()
 
 GET         /workflowHome/forum                                  controllers.ForumController.startDiscuss()
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
 GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
-GET			/workflowHome/editUser 								    controllers.UserController.showUser(name ?= null, id: Int)
-POST		/workflowHome/editUser								    controllers.UserController.showUser(name ?= null,id: Int)
+GET			/workflowHome/editUser 								 controllers.UserController.showUser(name ?= null, id: Int)
+POST		/workflowHome/editUser								 controllers.UserController.showUser(name ?= null,id: Int)
 
-GET			/workflowHome/group 									controllers.GroupController.showGroups()
-GET			/workflowHome/allusers 									controllers.UserController.showAllUser()
+GET			/workflowHome/group 							     controllers.GroupController.showGroups()
+GET			/workflowHome/allusers 							     controllers.UserController.showAllUser()
 
 
 

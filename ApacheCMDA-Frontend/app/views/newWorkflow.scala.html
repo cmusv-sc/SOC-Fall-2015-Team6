@@ -19,10 +19,10 @@
                                 '_label -> "Short Description"
                         )
 
-                        @inputFile(
-                                workflowServiceForm("Image_Preview"),
-                                '_label -> "Upload Image"
-                        )
+@*                        @inputFile(*@
+@*                                workflowServiceForm("Image_Preview"),*@
+@*                                '_label -> "Upload Image"*@
+@*                        )*@
 
                         @inputText(
                                 workflowServiceForm("Url"),
@@ -81,7 +81,6 @@
                 <br>
 
                 @form(routes.WorkflowController.downloadWorkflowService(), 'class -> "form-horizontal", 'role -> "form") {
-
                         <button type="submit" name="action" value="download">Download</button>
                 }
         }

@@ -20,7 +20,6 @@ public class WorkflowService {
     private String name;
     private String description;
 
-    private byte[] image;
     private String url;
 
     private String tasks;
@@ -33,37 +32,42 @@ public class WorkflowService {
     private List<String> datasets;
     private List<String> otherWorkflows;
 
-    private String photo;
+    private String usageCount;
+    private String viewCount;
+    private String downloadCount;
+    private String referenceCount;
+    private String questionableCount;
+    private String popularity;
 
 
-    private static final String ADD_WORKFLOW_CALL = Constants.NEW_BACKEND+"/workflow/addWorkflow";
-    private static final String ADD_TASK_CALL = Constants.NEW_BACKEND + "/task/addTask";
-    private static final String ADD_TASK_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/task/addTaskToWorkflow";
-    private static final String ADD_INPUT_CALL = Constants.NEW_BACKEND + "/input/addInput";
-    private static final String ADD_INPUT_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/input/addInputToWorkflow";
-    private static final String ADD_OUTPUT_CALL = Constants.NEW_BACKEND + "/output/addOutput";
-    private static final String ADD_OUTPUT_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/output/addOutputToWorkflow";
-    private static final String ADD_INSTRUCTION_CALL = Constants.NEW_BACKEND + "/instruction/addInstruction";
-    private static final String ADD_INSTRUCTION_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/instruction/addInstructionToWorkflow";
-    private static final String ADD_DATASET_CALL = Constants.NEW_BACKEND + "/datasetV2/addDataset";
-    private static final String ADD_DATASET_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/datasetV2/addDatasetToWorkflow";
-    private static final String ADD_LINK_CALL = Constants.NEW_BACKEND + "/link/addLink";
-    private static final String ADD_LINK_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/link/addLinkToWorkflow";
-    private static final String ADD_TAG_CALL = Constants.NEW_BACKEND + "/tag/addTag";
-    private static final String ADD_TAG_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "/workflow/addTagToWorkflow";
+    private static final String ADD_WORKFLOW_CALL = Constants.NEW_BACKEND+"workflow/addWorkflow";
+    private static final String ADD_TASK_CALL = Constants.NEW_BACKEND + "task/addTask";
+    private static final String ADD_TASK_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "task/addTaskToWorkflow";
+    private static final String ADD_INPUT_CALL = Constants.NEW_BACKEND + "input/addInput";
+    private static final String ADD_INPUT_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "input/addInputToWorkflow";
+    private static final String ADD_OUTPUT_CALL = Constants.NEW_BACKEND + "output/addOutput";
+    private static final String ADD_OUTPUT_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "output/addOutputToWorkflow";
+    private static final String ADD_INSTRUCTION_CALL = Constants.NEW_BACKEND + "instruction/addInstruction";
+    private static final String ADD_INSTRUCTION_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "instruction/addInstructionToWorkflow";
+    private static final String ADD_DATASET_CALL = Constants.NEW_BACKEND + "datasetV2/addDataset";
+    private static final String ADD_DATASET_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "datasetV2/addDatasetToWorkflow";
+    private static final String ADD_LINK_CALL = Constants.NEW_BACKEND + "link/addLink";
+    private static final String ADD_LINK_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "link/addLinkToWorkflow";
+    private static final String ADD_TAG_CALL = Constants.NEW_BACKEND + "tag/addTag";
+    private static final String ADD_TAG_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "workflow/addTagToWorkflow";
 
-    private static final String GET_WORKFLOW_BY_NAME_CALL = Constants.NEW_BACKEND + "/workflow/getWorkflowIdByName";
-    private static final String ADD_ATTRIBUTEWORKFLOW_CALL = Constants.NEW_BACKEND + "/workflow/addAttributeWorkflowToWorkflow";
+    private static final String GET_WORKFLOW_BY_NAME_CALL = Constants.NEW_BACKEND + "workflow/getWorkflowIdByName";
+    private static final String ADD_ATTRIBUTEWORKFLOW_CALL = Constants.NEW_BACKEND + "workflow/addAttributeWorkflowToWorkflow";
 
-    private static final String GET_WORKFLOW_BY_ID_CALL = Constants.NEW_BACKEND + "/workflow/getWorkflow";
-    private static final String GET_WORKFLOWS_CALL = Constants.NEW_BACKEND+"/workflow/getAllWorkflows";
+    private static final String GET_WORKFLOW_BY_ID_CALL = Constants.NEW_BACKEND + "workflow/getWorkflow";
+    private static final String GET_ALL_WORKFLOWS_CALL = Constants.NEW_BACKEND + "workflow/getAllWorkflows";
+    private static final String GET_WF_POPULARITY_CALL = Constants.NEW_BACKEND + "workflow/getWorkflowPopularity";
 
     public static JsonNode create(JsonNode jsonData) {
 
         //add workflow, get ID
         JsonNode addResponse = APICall.postAPI(ADD_WORKFLOW_CALL, jsonData);
         String workflowId = addResponse.get("workflowId").asText();
-
 
         //add task, get taskID
         String[] taskDes = jsonData.path("tasks").asText().split(":");
@@ -174,7 +178,6 @@ public class WorkflowService {
         JsonNode addAttToWfResponse = APICall.postAPI(ADD_ATTRIBUTEWORKFLOW_CALL, addAttToWfJson);
 
 
-
         //get workflow
         ObjectNode getJson = Json.newObject();
         getJson.put("workflowId", workflowId);
@@ -186,27 +189,43 @@ public class WorkflowService {
 
     public static List<WorkflowService> all() {
         List<WorkflowService> allWorkflows = new ArrayList<>();
-        JsonNode node = APICall.callAPI(GET_WORKFLOWS_CALL);
+        JsonNode node = APICall.postAPI(GET_ALL_WORKFLOWS_CALL, Json.newObject());
+        JsonNode allwf = node.get("allWorkflows");
 
-        if (node == null || node.has("error") || !node.isArray()) {
+        if (allwf == null || allwf.has("error") || !allwf.isArray()) {
+
             return allWorkflows;
         }
 
-        for (int i = 0; i < node.size(); i++) {
-            JsonNode json = node.path(i);
+        for (int i = 0; i < allwf.size(); i++) {
+            JsonNode json = allwf.path(i);
             WorkflowService wfs = new WorkflowService();
 
-//            wfs.setName(json.get("name").asText());
-//            wfs.setDescription(json.path("description").asText());
-//            wfs.setUrl(json.get("url").asText());
-//            wfs.setTasks(json.path("tasks").asText());
-//
-//            wfs.setInput(json.path("input").asText());
-//            wfs.setOutput(json.path("output").asText());
-//            wfs.setContributors(json.path("contributors").asText());
-//            wfs.setTags(json.path("tags").asText());
-//            wfs.setLinks(json.path("links").asText());
-//            wfs.setInstructions(json.path("instructions").asText());
+//            System.out.println("***************************");
+//            System.out.println(json.path("workflowId").asText());
+//            System.out.println(json.path("name").asText());
+//            System.out.println(json.path("description").asText());
+//            System.out.println(json.path("previewImage").asText());
+//            System.out.println(json.path("usageCount").asText());
+//            System.out.println(json.path("viewCount").asText());
+//            System.out.println("***************************");
+
+            String id = json.path("workflowId").asText();
+            wfs.setWfId(id);
+            wfs.setName(json.path("name").asText());
+            wfs.setDescription(json.path("description").asText());
+            wfs.setUrl(json.path("previewImage").asText());
+            wfs.setUsageCount(json.path("usageCount").asText());
+            wfs.setViewCount(json.path("viewCount").asText());
+            wfs.setReferenceCount(json.path("referenceCount").asText());
+            wfs.setDownloadCount(json.path("downloadCount").asText());
+            wfs.setQuestionableCount(json.path("questionableCount").asText());
+
+            ObjectNode ppJson = Json.newObject();
+            ppJson.put("workflowId", id);
+            JsonNode ppResponse = APICall.postAPI(GET_WF_POPULARITY_CALL, ppJson);
+            String pp = ppResponse.path("popularity").asText();
+            wfs.setPopularity(pp);
 
             allWorkflows.add(wfs);
         }
@@ -216,8 +235,8 @@ public class WorkflowService {
 
 
 
-    // getters and setters
 
+    // getters and setters
     public String getWfId() {
         return wfId;
     }
@@ -314,57 +333,59 @@ public class WorkflowService {
         this.otherWorkflows = otherWorkflows;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
-        setPhoto();
     }
 
-
-
-
-    public void setPhoto(){
-        if(url.contains("threeDimVarVertical.html")){
-            photo = "/assets/images/3DVerticalProfile.jpeg";
-        }else if(url.contains("twoDimZonalMean.html")){
-            photo = "http://einstein.sv.cmu.edu:9002/static/twoDimZonalMean/65778f88e3e057738423aa7183f5ee54/nasa_modis_clt_200401_200412_Annual.jpeg";
-        }else if(url.contains("twoDimMap.html")){
-            photo = "http://einstein.sv.cmu.edu:9002/static/twoDimMap/6879a2eedd1910f4c45e6213d342e066/nasa_modis_clt_200401_200412_Annual.jpeg";
-        }else if(url.contains("twoDimSlice3D.html")){
-            photo = "http://einstein.sv.cmu.edu:9002/static/twoDimSlice3D/ba6b08d54048d9c8349185d2606d3638/nasa_airs_ta_200401_200412_Annual.jpeg";
-        }else if(url.contains("scatterPlot2Vars.html")){
-            photo = "/assets/images/ScatterPlot.png";
-        }else if(url.contains("conditionalSampling.html")){
-            photo = "/assets/images/ConditionalSampling1Variable.jpeg";
-        }else if(url.contains("twoDimTimeSeries.html")){
-            photo = "/assets/images/TimeSeriesPlot.jpeg";
-        }else if(url.contains("threeDimZonalMean.html")){
-            photo = "http://einstein.sv.cmu.edu:9002/static/threeDimZonalMean/e4e120045d2bb589eed371e1ca08fd99/nasa_airs_ta_200401_200412_Annual.jpeg";
-        }else if(url.contains("diffPlot2Vars.html")){
-            photo = "/assets/images/DifferencePlot.png";
-        }else if (url.contains("regridAndDownload.html")) {
-            photo = "/assets/images/regrid.jpg";
-        }else if (url.contains("correlationMap.html")) {
-            photo = "/assets/images/correlationMap.png";
-        }else if (url.contains("conditionalSampling2Var.html")) {
-            photo = "/assets/images/conditionalSampling2Variables.jpeg";
-        }
-        else{
-            photo = "http://www.kissyourworld.com/wp-content/uploads/2015/09/Happy-Day.jpg";
-        }
+    public String getUsageCount() {
+        return usageCount;
     }
-    public String getPhoto() {
-        return photo;
+
+    public void setUsageCount(String usageCount) {
+        this.usageCount = usageCount;
+    }
+
+    public String getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(String viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getDownloadCount() {
+        return downloadCount;
+    }
+
+    public void setDownloadCount(String downloadCount) {
+        this.downloadCount = downloadCount;
+    }
+
+    public String getReferenceCount() {
+        return referenceCount;
+    }
+
+    public void setReferenceCount(String referenceCount) {
+        this.referenceCount = referenceCount;
+    }
+
+    public String getQuestionableCount() {
+        return questionableCount;
+    }
+
+    public void setQuestionableCount(String questionableCount) {
+        this.questionableCount = questionableCount;
+    }
+
+    public String getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(String popularity) {
+        this.popularity = popularity;
     }
 }
