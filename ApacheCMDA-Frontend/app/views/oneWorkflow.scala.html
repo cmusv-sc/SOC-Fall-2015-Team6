@@ -28,12 +28,17 @@
 
         <div class="row">
             <div class="col-lg-8">
-                <img class="img-responsive" src='@{workflow.getUrl()}' alt="">
 
                 <hr>
 
-                <p class="lead">@workflow.getName()</p>
-                <p>@workflow.getDescription()</p>
+                <p class="lead">Name: @workflow.getName()</p>
+                <p>Description: @workflow.getDescription()</p>
+                <p>Tags:
+                @for(tag <- workflow.getTagsList()) {
+                    @tag . </p>
+                }
+
+                <img class="img-responsive" src='@{workflow.getUrl()}' alt="">
 
                 <hr>
 
@@ -48,30 +53,119 @@
                             </h4>
                         </div>
 
-                        <div id="collapse1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <p>@workflow.getInput()</p>
+                        @for(input <- workflow.getInputs()) {
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>name: @input.get(1)</p>
+                                    <p>description: @input.get(2)</p>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
+
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" href="#collapse3">
+                                <a data-toggle="collapse" href="#collapse2">
                                     Outputs
                                 </a>
                             </h4>
                         </div>
 
-                        <div id="collapse3" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <p>@workflow.getOutput()</p>
+                        @for(output <- workflow.getOutputs()) {
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>name: @output.get(1)</p>
+                                    <p>description: @output.get(2)</p>
+                                </div>
                             </div>
+                        }
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse3">
+                                    Tasks
+                                </a>
+                            </h4>
                         </div>
 
-
+                        @for(task <- workflow.getTasks()) {
+                            <div id="collapse3" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>name: @task.get(1)</p>
+                                    <p>description: @task.get(2)</p>
+                                </div>
+                            </div>
+                        }
                     </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse4">
+                                    Instructions
+                                </a>
+                            </h4>
+                        </div>
+
+                        @for(instruction <- workflow.getInstructions()) {
+                            <div id="collapse4" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>name: @instruction.get(1)</p>
+                                    <p>description: @instruction.get(2)</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse5">
+                                    Datasets
+                                </a>
+                            </h4>
+                        </div>
+
+                        @for(dataset <- workflow.getDatasets()) {
+                            <div id="collapse5" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>name: @dataset.get(1)</p>
+                                    <p>content: @dataset.get(2)</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse6">
+                                    Links
+                                </a>
+                            </h4>
+                        </div>
+
+                        @for(link <- workflow.getLinks()) {
+                            <div id="collapse6" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>source: <a href = "@{link.get(1)}">@link.get(1)</a></p>
+                                    <p>sink: @link.get(2)</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+
+
                 </div> <!-- panel-group end -->
 
             </div> <!-- cols-8 end -->

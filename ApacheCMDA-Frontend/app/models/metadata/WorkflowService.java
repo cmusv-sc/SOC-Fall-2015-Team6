@@ -1,15 +1,20 @@
 package models.metadata;
 
+import com.amazonaws.services.simpleworkflow.flow.annotations.Workflow;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonObject;
+import org.apache.commons.collections.map.HashedMap;
 import play.libs.Json;
 import scala.collection.immutable.Stream;
+import scala.util.parsing.json.JSONArray;
 import util.Constants;
 import util.APICall;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wang on 12/2/15.
@@ -21,16 +26,7 @@ public class WorkflowService {
     private String description;
 
     private String url;
-
-    private String tasks;
-    private String input;
-    private String output;
     private String contributors;
-    private String tags;
-    private String links;
-    private String instructions;
-    private List<String> datasets;
-    private List<String> otherWorkflows;
 
     private String usageCount;
     private String viewCount;
@@ -38,6 +34,16 @@ public class WorkflowService {
     private String referenceCount;
     private String questionableCount;
     private String popularity;
+
+    private List<List<String>> tasks;
+    private List<List<String>> inputs;
+    private List<List<String>> outputs;
+    private List<List<String>> instructions;
+    private List<List<String>> datasets;
+    private List<List<String>> links;
+
+    private List<String> tagsList;
+    private List<String> otherWorkflows;
 
 
     private static final String ADD_WORKFLOW_CALL = Constants.NEW_BACKEND+"workflow/addWorkflow";
@@ -63,11 +69,14 @@ public class WorkflowService {
     private static final String GET_ALL_WORKFLOWS_CALL = Constants.NEW_BACKEND + "workflow/getAllWorkflows";
     private static final String GET_WF_POPULARITY_CALL = Constants.NEW_BACKEND + "workflow/getWorkflowPopularity";
 
+    private static Map<String, WorkflowService> wfMaps = new HashMap<>();
+
     public static JsonNode create(JsonNode jsonData) {
 
         //add workflow, get ID
         JsonNode addResponse = APICall.postAPI(ADD_WORKFLOW_CALL, jsonData);
         String workflowId = addResponse.get("workflowId").asText();
+
 
         //add task, get taskID
         String[] taskDes = jsonData.path("tasks").asText().split(":");
@@ -95,7 +104,6 @@ public class WorkflowService {
         addInputToWfJson.put("inputId", inputId);
         addInputToWfJson.put("workflowId", workflowId);
         JsonNode addInputToWfResponse = APICall.postAPI(ADD_INPUT_TO_WORKFLOW_CALL, addInputToWfJson);
-
 
 
         //add output, get outputId
@@ -183,6 +191,7 @@ public class WorkflowService {
         getJson.put("workflowId", workflowId);
         JsonNode getResponse = APICall.postAPI(GET_WORKFLOW_BY_ID_CALL, getJson);
 
+
         return getResponse;
     }
 
@@ -193,7 +202,6 @@ public class WorkflowService {
         JsonNode allwf = node.get("allWorkflows");
 
         if (allwf == null || allwf.has("error") || !allwf.isArray()) {
-
             return allWorkflows;
         }
 
@@ -231,11 +239,6 @@ public class WorkflowService {
         wfJson.put("workflowId", id);
         JsonNode wfResponse = APICall.postAPI(GET_WORKFLOW_BY_ID_CALL, wfJson);
 
-        System.out.println("******************");
-        System.out.println(id);
-        System.out.println(wfResponse.path("name").asText());
-        System.out.println("******************");
-
         wfs.setWfId(id);
         wfs.setName(wfResponse.path("name").asText());
         wfs.setDescription(wfResponse.path("description").asText());
@@ -246,13 +249,128 @@ public class WorkflowService {
         wfs.setDownloadCount(wfResponse.path("downloadCount").asText());
         wfs.setQuestionableCount(wfResponse.path("questionableCount").asText());
 
-        //get other attributes: input, ouput, or sth else
+        // set popularity
+        ObjectNode ppJson = Json.newObject();
+        ppJson.put("workflowId", id);
+        JsonNode ppResponse = APICall.postAPI(GET_WF_POPULARITY_CALL, ppJson);
+        String pp = ppResponse.path("popularity").asText();
+        wfs.setPopularity(pp);
 
+        // set tags
+        JsonNode tagsNode =  wfResponse.get("tags");
+        List<String> tagList = new ArrayList<>();
+        for(int i = 0; i < tagsNode.size(); i++) {
+            JsonNode json = tagsNode.path(i);
+
+            String name = json.path("name").asText();
+            tagList.add(name);
+        }
+        wfs.setTagsList(tagList);
+
+        // set tasks
+        JsonNode tasksNode = wfResponse.get("tasks");
+        List<List<String>> taskList = new ArrayList<>();
+        for(int i = 0; i < tasksNode.size(); i++) {
+            JsonNode json = tasksNode.path(i);
+
+            List<String> temp = new ArrayList<>();
+            String tId = json.path("taskId").asText();
+            String name = json.path("name").asText();
+            String decription = json.path("description").asText();
+            temp.add(tId);
+            temp.add(name);
+            temp.add(decription);
+            taskList.add(temp);
+        }
+        wfs.setTasks(taskList);
+
+        // set inputs
+        JsonNode inputNode = wfResponse.get("inputs");
+        List<List<String>> inputList = new ArrayList<>();
+        for(int i = 0; i < inputNode.size(); i++) {
+            JsonNode json = inputNode.path(i);
+
+            List<String> temp = new ArrayList<>();
+            String iId = json.path("inputId").asText();
+            String name = json.path("name").asText();
+            String description = json.path("description").asText();
+            temp.add(iId);
+            temp.add(name);
+            temp.add(description);
+            inputList.add(temp);
+        }
+        wfs.setInputs(inputList);
+
+        // set outputs
+        JsonNode outputNode = wfResponse.get("outputs");
+        List<List<String>> outputList = new ArrayList<>();
+        for(int i = 0; i < outputNode.size(); i++) {
+            JsonNode json = outputNode.path(i);
+
+            List<String> temp = new ArrayList<>();
+            String oId = json.path("outputId").asText();
+            String name = json.path("name").asText();
+            String description = json.path("description").asText();
+            temp.add(oId);
+            temp.add(name);
+            temp.add(description);
+            outputList.add(temp);
+        }
+        wfs.setOutputs(outputList);
+
+        // set instructions
+        JsonNode instructionNode = wfResponse.get("instructions");
+        List<List<String>> instructionList = new ArrayList<>();
+        for(int i = 0; i < instructionNode.size(); i++) {
+            JsonNode json = instructionNode.path(i);
+
+            List<String> temp = new ArrayList<>();
+            String iId = json.path("instructionId").asText();
+            String name = json.path("name").asText();
+            String description = json.path("description").asText();
+            temp.add(iId);
+            temp.add(name);
+            temp.add(description);
+            instructionList.add(temp);
+        }
+        wfs.setInstructions(instructionList);
+
+        // set datasets
+        JsonNode datasetNode = wfResponse.get("datasets");
+        List<List<String>> datasetList = new ArrayList<>();
+        for(int i = 0; i < datasetNode.size(); i++) {
+            JsonNode json = datasetNode.path(i);
+
+            List<String> temp = new ArrayList<>();
+            String dId = json.path("datasetId").asText();
+            String name = json.path("name").asText();
+            String content = json.path("content").asText();
+            temp.add(dId);
+            temp.add(name);
+            temp.add(content);
+            datasetList.add(temp);
+        }
+        wfs.setDatasets(datasetList);
+
+        // set links
+        JsonNode linkNode = wfResponse.get("links");
+        List<List<String>> linkList = new ArrayList<>();
+        for(int i = 0; i < linkNode.size(); i++) {
+            JsonNode json = linkNode.path(i);
+
+            List<String> temp = new ArrayList<>();
+            String lId = json.path("linkId").asText();
+            String source = json.path("source").asText();
+            String sink = json.path("sink").asText();
+            temp.add(lId);
+            temp.add(source);
+            temp.add(sink);
+            linkList.add(temp);
+        }
+        wfs.setLinks(linkList);
 
         return wfs;
     }
-
-
 
 
 
@@ -281,68 +399,12 @@ public class WorkflowService {
         this.description = description;
     }
 
-    public String getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(String tasks) {
-        this.tasks = tasks;
-    }
-
-    public String getInput() {
-        return input;
-    }
-
-    public void setInput(String input) {
-        this.input = input;
-    }
-
-    public String getOutput() {
-        return output;
-    }
-
-    public void setOutput(String output) {
-        this.output = output;
-    }
-
     public String getContributors() {
         return contributors;
     }
 
     public void setContributors(String contributors) {
         this.contributors = contributors;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
-    public String getLinks() {
-        return links;
-    }
-
-    public void setLinks(String links) {
-        this.links = links;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public List<String> getDatasets() {
-        return datasets;
-    }
-
-    public void setDatasets(List<String> datasets) {
-        this.datasets = datasets;
     }
 
     public List<String> getOtherWorkflows() {
@@ -407,5 +469,61 @@ public class WorkflowService {
 
     public void setPopularity(String popularity) {
         this.popularity = popularity;
+    }
+
+    public List<String> getTagsList() {
+        return tagsList;
+    }
+
+    public void setTagsList(List<String> tagsList) {
+        this.tagsList = tagsList;
+    }
+
+    public List<List<String>> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<List<String>> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<List<String>> getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(List<List<String>> inputs) {
+        this.inputs = inputs;
+    }
+
+    public List<List<String>> getOutputs() {
+        return outputs;
+    }
+
+    public void setOutputs(List<List<String>> outputs) {
+        this.outputs = outputs;
+    }
+
+    public List<List<String>> getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(List<List<String>> instructions) {
+        this.instructions = instructions;
+    }
+
+    public List<List<String>> getDatasets() {
+        return datasets;
+    }
+
+    public void setDatasets(List<List<String>> datasets) {
+        this.datasets = datasets;
+    }
+
+    public List<List<String>> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<List<String>> links) {
+        this.links = links;
     }
 }
