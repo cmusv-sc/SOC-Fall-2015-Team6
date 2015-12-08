@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.metadata.WorkflowService;
 import views.html.newWorkflow;
 
-import controllers.Application;
 import play.mvc.*;
 import util.APICall;
 import util.APICall.ResponseType;
@@ -23,8 +22,6 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,13 +70,8 @@ public class WorkflowController extends Controller {
             jsonData.put("instructions", dc.field("Instructions").value());
             jsonData.put("datasets", dc.field("Datasets").value());
 
-
 			JsonNode response = WorkflowService.create(jsonData);
 			Application.flashMsg(response);
-
-            System.out.println("***********************");
-            System.out.println(response.asText());
-            System.out.println("***********************");
 
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -116,9 +108,9 @@ public class WorkflowController extends Controller {
         return ok(file);
     }
 
-    public static Result oneWorkflowService(String id) {
-        return ok(oneWorkflow.render("/assets/html/" + url));
-    }
 
+    public static Result oneWorkflowService(String id) {
+        return ok(oneWorkflow.render(WorkflowService.getOneWorkflow(id)));
+    }
 
 }

@@ -201,15 +201,6 @@ public class WorkflowService {
             JsonNode json = allwf.path(i);
             WorkflowService wfs = new WorkflowService();
 
-//            System.out.println("***************************");
-//            System.out.println(json.path("workflowId").asText());
-//            System.out.println(json.path("name").asText());
-//            System.out.println(json.path("description").asText());
-//            System.out.println(json.path("previewImage").asText());
-//            System.out.println(json.path("usageCount").asText());
-//            System.out.println(json.path("viewCount").asText());
-//            System.out.println("***************************");
-
             String id = json.path("workflowId").asText();
             wfs.setWfId(id);
             wfs.setName(json.path("name").asText());
@@ -232,6 +223,35 @@ public class WorkflowService {
 
         return allWorkflows;
     }
+
+    public static WorkflowService getOneWorkflow(String id) {
+        WorkflowService wfs = new WorkflowService();
+
+        ObjectNode wfJson = Json.newObject();
+        wfJson.put("workflowId", id);
+        JsonNode wfResponse = APICall.postAPI(GET_WORKFLOW_BY_ID_CALL, wfJson);
+
+        System.out.println("******************");
+        System.out.println(id);
+        System.out.println(wfResponse.path("name").asText());
+        System.out.println("******************");
+
+        wfs.setWfId(id);
+        wfs.setName(wfResponse.path("name").asText());
+        wfs.setDescription(wfResponse.path("description").asText());
+        wfs.setUrl(wfResponse.path("previewImage").asText());
+        wfs.setUsageCount(wfResponse.path("usageCount").asText());
+        wfs.setViewCount(wfResponse.path("viewCount").asText());
+        wfs.setReferenceCount(wfResponse.path("referenceCount").asText());
+        wfs.setDownloadCount(wfResponse.path("downloadCount").asText());
+        wfs.setQuestionableCount(wfResponse.path("questionableCount").asText());
+
+        //get other attributes: input, ouput, or sth else
+
+
+        return wfs;
+    }
+
 
 
 

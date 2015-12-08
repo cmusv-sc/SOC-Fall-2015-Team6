@@ -1,4 +1,4 @@
-@(url: String)
+@(workflow: metadata.WorkflowService)
 
 @import helper._
 
@@ -15,9 +15,72 @@
     </script>
 }
 
+
 @main("Workflow", scripts) {
+    <div class="container">
 
-    <iframe id="iframe" width="100%" height="1200px" src="@url" frameborder="0" >
-    </iframe>
+        <h1>WorkflowService: @workflow.getName()</h1>
+        <h3>View_Count: @workflow.getViewCount()</h3>
+        <h3>Usage_Count: @workflow.getUsageCount()</h3>
+        <h3>Popularity: @workflow.getPopularity()</h3>
 
+        <hr>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <img class="img-responsive" src='@{workflow.getUrl()}' alt="">
+
+                <hr>
+
+                <p class="lead">@workflow.getName()</p>
+                <p>@workflow.getDescription()</p>
+
+                <hr>
+
+                <div class="panel-group">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse1">
+                                    Inputs
+                                </a>
+                            </h4>
+                        </div>
+
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>@workflow.getInput()</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse3">
+                                    Outputs
+                                </a>
+                            </h4>
+                        </div>
+
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>@workflow.getOutput()</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div> <!-- panel-group end -->
+
+            </div> <!-- cols-8 end -->
+
+
+
+        </div> <!-- row end-->
+
+        <hr>
+
+    </div>
 }

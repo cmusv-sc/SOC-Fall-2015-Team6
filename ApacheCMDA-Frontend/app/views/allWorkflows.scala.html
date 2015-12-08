@@ -32,9 +32,9 @@
 
     @for(workflow <- workflows){
         <tr>
-            <td><font size="2">
-                <a href="/workflow/@oneWorkflow.getWfId()">
-            @workflow.getWfId()</font></td>
+            <td>
+                <a href = "@{routes.WorkflowController.oneWorkflowService(workflow.getWfId())}">@workflow.getWfId()</a>
+            </td>
 
             <td><font size="2">
             @workflow.getName()</font></td>
