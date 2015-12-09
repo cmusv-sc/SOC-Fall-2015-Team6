@@ -168,16 +168,6 @@ public class Application extends Controller {
 
 		Application.sessionMsg(response);
 
-		//test purpose
-//		System.out.println("********************");
-//		System.out.println(session().get("userId"));
-//		System.out.println(session().get("userName"));
-//		System.out.println(session().get("title"));
-//		System.out.println(session().get("researchFields"));
-//		System.out.println(session().get("affiliation"));
-//		System.out.println(session().get("faxNumber"));
-//		System.out.println("********************");
-
 		//supplement user information
 		user.setUserId(response.path("userId").asText());
 		user.setUserName(response.path("userName").asText());
@@ -194,17 +184,6 @@ public class Application extends Controller {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-	// no use
 	public static void sessionMsg(JsonNode jsonNode) {
 		session().clear();
 		Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
@@ -214,7 +193,7 @@ public class Application extends Controller {
 		}
 	}
 
-	//useless
+
 	public static Result index() {
 		return ok(index.render(""));
 	}

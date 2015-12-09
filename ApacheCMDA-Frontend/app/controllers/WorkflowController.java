@@ -32,6 +32,9 @@ public class WorkflowController extends Controller {
     final static Form<WorkflowService> workflowServiceForm = Form
             .form(WorkflowService.class);
 
+    final static Form<WorkflowService> editWorkflowForm = Form
+            .form(WorkflowService.class);
+
     public static Result newWorkflow() {
         return ok(newWorkflow.render(workflowServiceForm));
     }
@@ -90,7 +93,6 @@ public class WorkflowController extends Controller {
         return ok(allWorkflows.render(allWfServices));
     }
 
-
     public static Result downloadWorkflowService() {
         List<WorkflowService> user = WorkflowService.all();
         ObjectMapper mapper = new ObjectMapper();
@@ -110,7 +112,191 @@ public class WorkflowController extends Controller {
 
 
     public static Result oneWorkflowService(String id) {
+        session("currentWFID", id);
+
         return ok(oneWorkflow.render(WorkflowService.getOneWorkflow(id)));
     }
+
+
+    public static Result editWorkflow() {
+        return ok(editOneWorkflow.render(session().get("currentWFID"), editWorkflowForm));
+    }
+
+    public static Result addTags() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("tags", dc.field("NewTag").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewTag(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addInputs() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("inputs", dc.field("NewInput").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewInput(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addOutputs() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("outputs", dc.field("NewOutput").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewOutput(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addTasks() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("tasks", dc.field("NewTask").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewTask(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addInstructions() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("instructions", dc.field("NewInstruction").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewInstruction(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addDatasets() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("datasets", dc.field("NewDataset").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewDataset(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addLinks() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("links", dc.field("NewLink").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewLink(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addAttributes() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("attributeWorkflow", dc.field("NewAttribute").value());
+            jsonData.put("wfId", session().get("currentWFID"));
+            JsonNode response = WorkflowService.addNewAttribute(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
 
 }

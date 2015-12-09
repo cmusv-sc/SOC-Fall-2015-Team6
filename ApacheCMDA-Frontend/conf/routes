@@ -26,6 +26,17 @@ GET			/workflowHome/oneWorkflow						     controllers.WorkflowController.oneWork
 
 POST		/workflowHome/download/workflowServices				 controllers.WorkflowController.downloadWorkflowService()
 
+GET         /workflowHome/editWorkflow						     controllers.WorkflowController.editWorkflow()
+POST        /workflowHome/editWorkflow/addTags					 controllers.WorkflowController.addTags()
+POST        /workflowHome/editWorkflow/addInputs				 controllers.WorkflowController.addInputs()
+POST        /workflowHome/editWorkflow/addOutputs				 controllers.WorkflowController.addOutputs()
+
+POST        /workflowHome/editWorkflow/addTasks				     controllers.WorkflowController.addTasks()
+POST        /workflowHome/editWorkflow/addInstructions		     controllers.WorkflowController.addInstructions()
+POST        /workflowHome/editWorkflow/addDatasets				 controllers.WorkflowController.addDatasets()
+POST        /workflowHome/editWorkflow/addLinks				     controllers.WorkflowController.addLinks()
+POST        /workflowHome/editWorkflow/addAttributes		     controllers.WorkflowController.addAttributes()
+
 GET         /workflowHome/forum                                  controllers.ForumController.startDiscuss()
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
@@ -35,6 +46,11 @@ POST		/workflowHome/editUser								 controllers.UserController.showUser(name ?=
 
 GET			/workflowHome/group 							     controllers.GroupController.showGroups()
 GET			/workflowHome/allusers 							     controllers.UserController.showAllUser()
+
+
+
+
+
 
 
 

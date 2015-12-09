@@ -1,0 +1,109 @@
+@(wfId: String, editWorkflowFrom: play.data.Form[metadata.WorkflowService])
+
+@import helper._
+
+
+@main("Edit Workflow Service") {
+
+    <h1 align="center">Edit Workflow Page</h1>
+    <h3 align="center">id: @wfId</h3>
+
+    <div>
+    @form(routes.WorkflowController.addTags(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewTag"),
+            '_label -> "New Tag Name"
+        )
+        <input class="btn" type="submit" value="Add Tag">
+    }
+    </div>
+    <br>
+
+    <div>
+    @form(routes.WorkflowController.addInputs(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewInput"),
+            '_label -> "NewInput(Name:Description)"
+        )
+
+        <input class="btn" type="submit" value="Add Input">
+
+    }
+    </div>
+    <br>
+
+    <div>
+    @form(routes.WorkflowController.addOutputs(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewOutput"),
+            '_label -> "NewOutput(Name:Description)"
+        )
+        <input class="btn" type="submit" value="Add Output">
+    }
+    </div>
+    <br>
+
+    <div>
+    @form(routes.WorkflowController.addTasks(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewTask"),
+            '_label -> "NewTask(Name:Description)"
+        )
+
+        <input class="btn" type="submit" value="Add Task">
+    }
+    </div>
+    <br>
+
+    <div>
+    @form(routes.WorkflowController.addInstructions(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewInstruction"),
+            '_label -> "NewInstruction(Name:Description)"
+        )
+
+        <input class="btn" type="submit" value="Add Instruction">
+    }
+    </div>
+    <br>
+
+    <div>
+    @form(routes.WorkflowController.addDatasets(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewDataset"),
+            '_label -> "NewDataset(Name:Content)"
+        )
+
+        <input class="btn" type="submit" value="Add Dataset">
+    }
+    </div>
+    <br>
+
+    <div>
+    @form(routes.WorkflowController.addLinks(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewLink"),
+            '_label -> "NewLink(Source,sink)"
+        )
+
+        <input class="btn" type="submit" value="Add Link">
+    }
+    </div>
+    <br>
+
+    <div>
+    @form(routes.WorkflowController.addAttributes(), 'class -> "form-horizontal", 'role -> "form") {
+        @inputText(
+            editWorkflowFrom("NewAttribute"),
+            '_label -> "Attribute workflow(Name)"
+        )
+
+        <input class="btn" type="submit" value="Add Attribute">
+    }
+    </div>
+    <br>
+
+
+    <a href="@routes.Application.workflowHome()" class="btn">Cancel</a>
+
+}
