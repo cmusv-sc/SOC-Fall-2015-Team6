@@ -41,13 +41,19 @@ GET         /workflowHome/forum                                  controllers.For
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
 GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
+
+GET			/workflowHome/newGroup 						     controllers.GroupController.newGroup()
+POST		/workflowHome/createNewGroups  					 controllers.GroupController.createNewGroup()
+
 GET			/workflowHome/editUser 								 controllers.UserController.showUser(name ?= null, id: Int)
 POST		/workflowHome/editUser								 controllers.UserController.showUser(name ?= null,id: Int)
 
 GET			/workflowHome/group 							     controllers.GroupController.showGroups()
 GET			/workflowHome/allusers 							     controllers.UserController.showAllUser()
-
-
+GET			/workflowHome/addFriend 							  controllers.FriendController.addFriend(String)
+GET			/workflowHome/deleteFriend 							  controllers.FriendController.deleteFriend(String)
+GET			/workflowHome/addSubscribe 							  controllers.SubscribeController.addSubscribe(String)
+GET			/workflowHome/deleteSubscribe							  controllers.SubscribeController.deleteSubscribe(String)
 
 
 

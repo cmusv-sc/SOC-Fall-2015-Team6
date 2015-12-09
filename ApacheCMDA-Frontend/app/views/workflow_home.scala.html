@@ -1,4 +1,4 @@
-@(user: User, posts: List[Post], friends: List[Friend])
+@(user: User, posts: List[Post], friends: List[Friend], subscribes: List[Friend])
 
     @main("Profile") {
         <div class="container">
@@ -158,6 +158,14 @@
                                 </a>
                                 @for(friend <- friends){
                                     <a href="@routes.UserController.showUser(friend.getName(), friend.getID())" class="list-group-item"> @friend.getName() </a>
+                                }
+                            </div>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item active">
+                                    Subscribe
+                                </a>
+                                @for(subscribe <- subscribes){
+                                    <a href="@routes.UserController.showUser(subscribe.getName(), subscribe.getID())" class="list-group-item"> @subscribe.getName() </a>
                                 }
                             </div>
                             <button type="submit" class="btn btn-info btn-block">

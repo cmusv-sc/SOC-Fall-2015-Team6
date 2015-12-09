@@ -180,7 +180,7 @@ public class Application extends Controller {
 		user.setPhoneNumber(response.path("phoneNumber").asText());
 		user.setHighestDegree(response.path("highestDegree").asText());
 
-		return ok(workflow_home.render(user, Post.all(), Friend.all()));
+		return ok(workflow_home.render(user, Post.all(), Friend.all(), Friend.allSubscribe()));
 	}
 
 

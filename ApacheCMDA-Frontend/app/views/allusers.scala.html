@@ -12,7 +12,6 @@
                                     </div>
                                 </div><!--/row-->
                                 @for(user <- users) {
-
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-2">
                                             <h4>@user.getUserName()</h4>
@@ -20,22 +19,33 @@
 
                                         <div class="col-xs-12 col-sm-2">
                                             <p><small> Friend </small></p>
-                                            <button type="submit" class="btn btn-success btn-block">
-                                                <a href='@routes.WorkflowController.newWorkflow()'> New Workflow </a>
+                                            <button type="submit" class="btn btn-success btn-block" id="FriendButton@user.getUserId()">
+                                                <a href='@routes.FriendController.addFriend(user.getUserId())'> Friend </a>
                                             </button>
                                         </div><!--/col-->
 
                                         <div class="col-xs-12 col-sm-2">
                                             <p><small> Subscribe </small></p>
                                             <button type="submit" class="btn btn-danger btn-block">
-                                                <a href='@routes.WorkflowController.viewAllWorkflows()'> View Workflows </a>
+                                                <a href='@routes.SubscribeController.addSubscribe(user.getUserId())'> Subscribe </a>
                                             </button>
                                         </div><!--/col-->
                                     </div><!--/row-->
+                                    <script type="text/javascript">
+                                            $( "#FriendButton@user.getUserId()" ).click(function() {
+                                                alert( "Add success" );
+                                            });
+                                    </script>
                                 }
                         </div><!--/panel-body-->
+
+                        <button type="submit" class="btn btn-toolbar btn-block">
+                            <a href='@routes.Application.workflowHome()'> Home </a>
+                        </button>
                     </div><!--/panel-->
                 </div>
             </div>
         </div>
+
+
     }

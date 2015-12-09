@@ -16,6 +16,12 @@ public class UserService {
 
 	private static final String GET_USERID_BY_EMAIL = Constants.NEW_BACKEND+"user/getUserIdByEmail";
 	private static final String GET_USER_BY_ID = Constants.NEW_BACKEND+"user/getUser";
+	private static final String GET_ALL_USER = Constants.NEW_BACKEND+"user/getAllUsers";
+	private static final String GET_USER_FRIENDS = Constants.NEW_BACKEND+"user/getUser";
+	private static final String ADD_FRIEND = Constants.NEW_BACKEND+"user/addFriendToUser";
+	private static final String DELETE_FRIEND = Constants.NEW_BACKEND+"user/deleteFriendFromUser";
+	private static final String ADD_SUBSCRIBE = Constants.NEW_BACKEND+"user/addSubscribeUserToUser";
+	private static final String DELETE_SUBSCRIBE = Constants.NEW_BACKEND+"user/deleteSubscribeUserFromUser";
 
 
 	public static JsonNode verifyUserAuthentity(JsonNode jsonData) {
@@ -34,6 +40,46 @@ public class UserService {
 		userData.put("userId", id);
 
 		return APICall.postAPI(GET_USER_BY_ID, userData);
+	}
+
+	public static JsonNode getAllUsers() {
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", "null");
+		return APICall.postAPI(GET_ALL_USER, userData);
+	}
+
+	public static JsonNode getAllFriends(String userID) {
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userID);
+		return APICall.postAPI(GET_USER_FRIENDS, userData);
+	}
+
+	public static JsonNode addFriend(String userId, String friendID) {
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userId);
+		userData.put("friendId", friendID);
+		return APICall.postAPI(ADD_FRIEND, userData);
+	}
+
+	public static JsonNode deleteFriend(String userId, String friendID) {
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userId);
+		userData.put("friendId", friendID);
+		return APICall.postAPI(DELETE_FRIEND, userData);
+	}
+
+	public static JsonNode addSubscribe(String userId, String subscribeUserId) {
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userId);
+		userData.put("subscribeUserId", subscribeUserId);
+		return APICall.postAPI(ADD_SUBSCRIBE, userData);
+	}
+
+	public static JsonNode deleteSubscribe(String userId, String subscribeUserId) {
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userId);
+		userData.put("subscribeUserId", subscribeUserId);
+		return APICall.postAPI(DELETE_SUBSCRIBE, userData);
 	}
 
 //	public User getUserByEmail(String email) {

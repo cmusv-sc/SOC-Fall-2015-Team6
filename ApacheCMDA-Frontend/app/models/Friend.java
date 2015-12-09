@@ -23,20 +23,24 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import controllers.Application;
 import models.metadata.ClimateService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.*;
 
+import models.metadata.UserService;
 import play.data.validation.Constraints;
+import play.libs.Json;
+import play.mvc.Controller;
 import util.APICall;
 import util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-public class Friend {
+public class Friend  extends Controller {
 
     private String userName;
     private String firstName;
@@ -54,14 +58,21 @@ public class Friend {
     }
 
     public static List<Friend> all() {
-        List<Friend> friends = new ArrayList<Friend>();
-        friends.add(new Friend("Sam", 1));
-        friends.add(new Friend("Sam2", 2));
-        friends.add(new Friend("Sam3", 3));
-        friends.add(new Friend("Sam4", 4));
-        friends.add(new Friend("Sam5", 5));
-        friends.add(new Friend("Sam6", 6));
+        ObjectNode jsonData = Json.newObject();
+        jsonData.put("email", session().get("email"));
+        JsonNode response = UserService.getUserByEmail(jsonData);
+        Application.sessionMsg(response);
 
+        String userID = response.path("userId").asText();
+
+        JsonNode allfriends = UserService.getAllFriends(userID);
+        Iterator<JsonNode> it = allfriends.get("friends").iterator() ;
+
+        List<Friend> friends = new ArrayList<Friend>();
+        while(it.hasNext()){
+            JsonNode now = it.next();
+            friends.add(new Friend(now.get("userName").asText(), now.get("userId").asInt()));
+        }
         /*
         JsonNode postsNode = APICall
                 .callAPI(GET_POSTS_CALL);
@@ -78,6 +89,89 @@ public class Friend {
         }
         */
         return friends;
+    }
+
+    public static List<Friend> allSubscribe() {
+        ObjectNode jsonData = Json.newObject();
+        jsonData.put("email", session().get("email"));
+        JsonNode response = UserService.getUserByEmail(jsonData);
+        Application.sessionMsg(response);
+
+        String userID = response.path("userId").asText();
+
+        JsonNode allfriends = UserService.getAllFriends(userID);
+        Iterator<JsonNode> it = allfriends.get("subscribeUsers").iterator() ;
+
+        List<Friend> friends = new ArrayList<Friend>();
+        while(it.hasNext()){
+            JsonNode now = it.next();
+            friends.add(new Friend(now.get("userName").asText(), now.get("userId").asInt()));
+        }
+        /*
+        JsonNode postsNode = APICall
+                .callAPI(GET_POSTS_CALL);
+
+        if (postsNode == null || postsNode.has("error")
+                || !postsNode.isArray()) {
+            return posts;
+        }
+
+        for (int i = 0; i < postsNode.size(); i++) {
+            JsonNode json = postsNode.path(i);
+            Post post = new Post(json.path("image").asText(),json.path("text").asText(),json.path("title").asText());
+            posts.add(post);
+        }
+        */
+        return friends;
+    }
+
+
+    public static String addFriend(String id) {
+        ObjectNode jsonData = Json.newObject();
+        jsonData.put("email", session().get("email"));
+        JsonNode response = UserService.getUserByEmail(jsonData);
+        Application.sessionMsg(response);
+
+        String userID = response.path("userId").asText();
+
+        JsonNode allfriends = UserService.addFriend(userID, id);
+        return "success";
+    }
+
+    public static String deleteFriend(String id) {
+        ObjectNode jsonData = Json.newObject();
+        jsonData.put("email", session().get("email"));
+        JsonNode response = UserService.getUserByEmail(jsonData);
+        Application.sessionMsg(response);
+
+        String userID = response.path("userId").asText();
+
+        JsonNode allfriends = UserService.deleteFriend(userID, id);
+        return "success";
+    }
+
+    public static String addSubscribe(String id) {
+        ObjectNode jsonData = Json.newObject();
+        jsonData.put("email", session().get("email"));
+        JsonNode response = UserService.getUserByEmail(jsonData);
+        Application.sessionMsg(response);
+
+        String userID = response.path("userId").asText();
+
+        JsonNode allfriends = UserService.addSubscribe(userID, id);
+        return "success";
+    }
+
+    public static String deleteSubscribe(String id) {
+        ObjectNode jsonData = Json.newObject();
+        jsonData.put("email", session().get("email"));
+        JsonNode response = UserService.getUserByEmail(jsonData);
+        Application.sessionMsg(response);
+
+        String userID = response.path("userId").asText();
+
+        JsonNode allfriends = UserService.deleteSubscribe(userID, id);
+        return "success";
     }
 
     public String getName(){

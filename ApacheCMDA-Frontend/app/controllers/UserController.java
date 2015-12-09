@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Friend;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,4 +20,5 @@ public class UserController extends Controller {
     public static Result showAllUser() {
         return ok(allusers.render(User.getAllUser()));
     }
+
 }

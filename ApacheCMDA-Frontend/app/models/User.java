@@ -26,10 +26,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.metadata.ClimateService;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
 
+import models.metadata.UserService;
 import play.data.validation.Constraints;
 import util.APICall;
 import util.Constants;
@@ -208,17 +211,21 @@ public class User {
 		this.userName = userName;
 	}
 
-		static public ArrayList<User> getAllUser() {
+	static public ArrayList<User> getAllUser() {
+
+		JsonNode allusers = UserService.getAllUsers();
+
 		ArrayList<User> users = new ArrayList<User>();
-		User user1 = new User();
-		user1.userName = "user1";
 
-		User user2 = new User();
-		user2.userName = "user2";
+		Iterator<JsonNode> it = allusers.get("allUsers").iterator() ;
 
-		users.add(user1);
-		users.add(user2);
-
+		while(it.hasNext()){
+			User user1 = new User();
+			JsonNode now = it.next();
+			user1.userName = now.get("userName").asText();
+			user1.userId = now.get("userId").asText();
+			users.add(user1);
+		}
 		return users;
 	}
 
