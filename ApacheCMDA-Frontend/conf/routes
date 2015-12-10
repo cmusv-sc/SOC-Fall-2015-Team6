@@ -44,11 +44,16 @@ GET         /workflowHome/userGroups                             controllers.Rel
 
 GET			/workflowHome/newGroup 						     controllers.GroupController.newGroup()
 POST		/workflowHome/createNewGroups  					 controllers.GroupController.createNewGroup()
+GET			/workflowHome/addUserToGroup 						controllers.GroupController.addUserToGroup(String)
+POST		/workflowHome/addUserToGroupSubmit  					 controllers.GroupController.addUserToGroupSubmit(String)
+GET			/workflowHome/deleteUserFromGroup           controllers.GroupController.deleteUserFromGroup(id ?= null, name ?= null)
+
 
 GET			/workflowHome/editUser 								 controllers.UserController.showUser(name ?= null, id: Int)
 POST		/workflowHome/editUser								 controllers.UserController.showUser(name ?= null,id: Int)
 
 GET			/workflowHome/group 							     controllers.GroupController.showGroups()
+GET			/workflowHome/deletegroup 							  controllers.GroupController.deleteGroup(String)
 GET			/workflowHome/allusers 							     controllers.UserController.showAllUser()
 GET			/workflowHome/addFriend 							  controllers.FriendController.addFriend(String)
 GET			/workflowHome/deleteFriend 							  controllers.FriendController.deleteFriend(String)

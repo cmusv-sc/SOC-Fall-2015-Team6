@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Friend;
+import models.Group;
 import models.Post;
 import models.User;
 import play.mvc.Controller;
@@ -26,7 +27,7 @@ public class FriendController extends Controller {
             Friend.deleteFriend(id);
         }
         User user = new User(session().get("email"), session().get("password"));
-        return ok(workflow_home.render(user, Post.all(), Friend.all(), Friend.allSubscribe()));
+        return ok(workflow_home.render(user, Post.all(), Friend.all(), Friend.allSubscribe(), Group.all()));
     }
 
 }

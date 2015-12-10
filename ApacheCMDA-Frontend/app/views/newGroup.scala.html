@@ -16,17 +16,13 @@
                         )
                         @inputText(
                                 groupServiceForm("isPublic"),
+                                'placeholder -> "public",
                                 '_label -> "public or not"
                         )
 
                         <input class="btn" type="submit" value="Create it">
                         <a href="@routes.Application.workflowHome()" class="btn">Cancel</a>
                 }
-
                 <br>
-
-                @form(routes.WorkflowController.downloadWorkflowService(), 'class -> "form-horizontal", 'role -> "form") {
-                        <button type="submit" name="action" value="download">Download</button>
-                }
         }
 }

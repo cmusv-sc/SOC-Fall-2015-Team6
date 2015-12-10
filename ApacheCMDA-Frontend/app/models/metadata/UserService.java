@@ -22,6 +22,15 @@ public class UserService {
 	private static final String DELETE_FRIEND = Constants.NEW_BACKEND+"user/deleteFriendFromUser";
 	private static final String ADD_SUBSCRIBE = Constants.NEW_BACKEND+"user/addSubscribeUserToUser";
 	private static final String DELETE_SUBSCRIBE = Constants.NEW_BACKEND+"user/deleteSubscribeUserFromUser";
+	private static final String ADD_GROUP = Constants.NEW_BACKEND+"group/addGroup";
+	private static final String ADD_GROUP_ADMIN = Constants.NEW_BACKEND+"user/addUserToGroupAsAdmin";
+	private static final String GET_GROUP = Constants.NEW_BACKEND+"group/getGroup";
+	private static final String DELETE_GROUP = Constants.NEW_BACKEND+"group/deleteGroup";
+	private static final String GET_GROUP_ID_BY_NAME = Constants.NEW_BACKEND+"group/getGroupIdByName";
+	private static final String ADD_USER_TO_GROUP = Constants.NEW_BACKEND+"user/addUserToGroupAsMember";
+	private static final String DELETE_USER_FROM_GROUP = Constants.NEW_BACKEND+"user/deleteUserFromGroup";
+
+
 
 
 	public static JsonNode verifyUserAuthentity(JsonNode jsonData) {
@@ -80,6 +89,71 @@ public class UserService {
 		userData.put("userId", userId);
 		userData.put("subscribeUserId", subscribeUserId);
 		return APICall.postAPI(DELETE_SUBSCRIBE, userData);
+	}
+
+	public static JsonNode addGroup(String userId, String groupName, String isPublic) {
+		ObjectNode userData = Json.newObject();
+		userData.put("creatorId", userId);
+		userData.put("name", groupName);
+		if(isPublic.equals("public")) {
+			userData.put("isPublic", "true");
+		} else {
+			userData.put("isPublic", "false");
+		}
+		JsonNode response = APICall.postAPI(ADD_GROUP, userData);
+		String groupID = response.get("groupId").asText();
+		ObjectNode userData1 = Json.newObject();
+		userData1.put("userId", userId);
+		userData1.put("groupId", groupID);
+		return APICall.postAPI(ADD_GROUP_ADMIN, userData1);
+	}
+
+	public static JsonNode getAllGroups(String userID) {
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userID);
+		return APICall.postAPI(GET_USER_FRIENDS, userData);
+	}
+
+	public static JsonNode getGroupInfo(String groupId) {
+		ObjectNode userData = Json.newObject();
+		userData.put("groupId", groupId);
+		return APICall.postAPI(GET_GROUP, userData);
+	}
+
+	public static JsonNode deleteGroup(String groupId) {
+		ObjectNode userData = Json.newObject();
+		userData.put("groupId", groupId);
+		return APICall.postAPI(DELETE_GROUP, userData);
+	}
+
+	public static JsonNode addUserToGroup(String userId, String groupName) {
+		ObjectNode userData = Json.newObject();
+		userData.put("name", groupName);
+
+		JsonNode response = APICall.postAPI(GET_GROUP_ID_BY_NAME, userData);
+
+		String groupId = response.get("groupId").asText();
+
+		ObjectNode data = Json.newObject();
+		data.put("userId", userId);
+		data.put("groupId", groupId);
+
+		return APICall.postAPI(ADD_USER_TO_GROUP, data);
+	}
+
+	public static JsonNode deleteUserFromGroup(String userId, String groupName) {
+		ObjectNode userData = Json.newObject();
+		userData.put("name", groupName);
+
+		JsonNode response = APICall.postAPI(GET_GROUP_ID_BY_NAME, userData);
+
+		String groupId = response.get("groupId").asText();
+
+		ObjectNode data = Json.newObject();
+		data.put("userId", userId);
+		data.put("groupId", groupId);
+
+		return APICall.postAPI(DELETE_USER_FROM_GROUP, data);
 	}
 
 //	public User getUserByEmail(String email) {

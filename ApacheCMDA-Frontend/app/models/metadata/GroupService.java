@@ -6,6 +6,8 @@ package models.metadata;
 public class GroupService {
     private String isPublic;
     private String name;
+    private String userID;
+    private String groupID;
 
     public String getIsPublic() {
         return isPublic;
@@ -21,5 +23,21 @@ public class GroupService {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(String groupID) {
+        this.groupID = groupID;
     }
 }
