@@ -34,7 +34,7 @@
                                 <ul class="articles">
                                     @for(workflow <- workflows) {
                                         <li class="article-entry standard">
-                                            <h4><a href="single.html">@workflow.getName</a></h4>
+                                            <h4><a href= "@{routes.WorkflowController.oneWorkflowService(workflow.getWfId())}">@workflow.getName</a></h4>
                                             <span class="article-meta">
                                             25 Feb, 2013 in <a href="#" title="View all posts in Server &amp; Database">
                                             Server &amp; Database</a></span>
