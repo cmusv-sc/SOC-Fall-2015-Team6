@@ -43,7 +43,7 @@ GET         /workflowHome/single2                                controllers.For
 GET			/createNewReply										 controllers.ForumController.createNewReply()
 GET			/createNewReplyProxy								 controllers.ForumController.createNewReplyProxy(id : Long)
 
-
+GET         /workflowHome/forum/search                                  controllers.ForumController.search(String)
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
 GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
@@ -62,16 +62,10 @@ GET			/workflowHome/group 							     controllers.GroupController.showGroups()
 GET			/workflowHome/deletegroup 							  controllers.GroupController.deleteGroup(String)
 GET			/workflowHome/allusers 							     controllers.UserController.showAllUser()
 GET			/workflowHome/addFriend 							  controllers.FriendController.addFriend(String)
+GET			/workflowHome/acceptFriend 							  controllers.FriendController.acceptFriend(String)
 GET			/workflowHome/deleteFriend 							  controllers.FriendController.deleteFriend(String)
 GET			/workflowHome/addSubscribe 							  controllers.SubscribeController.addSubscribe(String)
 GET			/workflowHome/deleteSubscribe							  controllers.SubscribeController.deleteSubscribe(String)
-
-
-
-
-
-
-
 
 
 

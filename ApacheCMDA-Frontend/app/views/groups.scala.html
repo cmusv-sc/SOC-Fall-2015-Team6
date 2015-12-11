@@ -48,14 +48,17 @@
                                                 <a href='@routes.GroupController.addUserToGroup(user.getID.toString())'> Add </a>
                                             </button>
                                         </div><!--/col-->
-                                    </div><!--/row-->
 
-                                    <div class="col-xs-12 col-sm-2">
-                                        <p><small> Delete from Group </small></p>
-                                        <button type="submit" class="btn btn-danger btn-block">
-                                            <a href='@routes.GroupController.deleteUserFromGroup(user.getID.toString(), group.getTitle)'> Subscribe </a>
-                                        </button>
-                                    </div><!--/col-->
+                                        @if(group.getAdminBoolean) {
+                                            <div class="col-xs-12 col-sm-2">
+                                                <p><small> Delete from Group </small></p>
+                                                <button type="submit" class="btn btn-danger btn-block">
+                                                    <a href='@routes.GroupController.deleteUserFromGroup(user.getID.toString(), group.getTitle)'>
+                                                        Delete </a>
+                                                </button>
+                                            </div> <!--/col-->
+                                        }
+                                    </div><!--/row-->
                                 }
                         </div><!--/panel-body-->
                     </div><!--/panel-->

@@ -15,6 +15,8 @@
                                     <p><strong>Email: </strong> @user.getEmail() </p>
                                     <p><strong>Research Interests: </strong> @user.getResearchFields() </p>
                                     <p><strong>Address: </strong> @user.getMailingAddress() </p>
+                                    <p><strong>Subscribed by: </strong> @user.getSubscribersNumber </p>
+                                    <p><strong>Collaborated with: </strong> @user.getCollaboratorsNumber </p>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 text-center">
                                     <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="" class="center-block img-circle img-responsive">
@@ -27,14 +29,14 @@
                                     </ul>
                                 </div><!--/col-->
 
-
+                            </div><!--/row-->
+                            <div class="row">
                                 <div class="col-xs-12 col-sm-4">
                                     <p><small> Create New Workflow </small></p>
                                     <button type="submit" class="btn btn-success btn-block">
                                         <a href='@routes.WorkflowController.newWorkflow()'> New Workflow </a>
                                     </button>
                                 </div><!--/col-->
-
 
                                 <div class="col-xs-12 col-sm-4">
                                     <p><small> View Workflows </small></p>
@@ -49,7 +51,6 @@
                                         <a href='@routes.ForumController.startDiscuss("Firstone")'> Discuss Forum </a>
                                     </button>
                                 </div><!--/col-->
-
                             </div><!--/row-->
                         </div><!--/panel-body-->
                     </div><!--/panel-->
@@ -66,6 +67,7 @@
                                                 </a>
                                             </div>
                                             <div class="media-body">
+                                                <h3 class="media-heading">@post.userName</h3>
                                                 <h4 class="media-heading">@post.getTextHead</h4>
                                                 @post.getText
                                             </div>
@@ -88,11 +90,6 @@
                                             <span class="label label-info">@tag</span>
                                         }
                                     }
-                                <span class="label label-primary">Primary</span>
-                                <span class="label label-success">Success</span>
-                                <span class="label label-info">Info</span>
-                                <span class="label label-warning">Warning</span>
-                                <span class="label label-danger">Danger</span>
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
                                 </div><!--/row-->
 
@@ -101,8 +98,6 @@
                     }
 
                 </div>
-
-
 
                 <div class="col-md-3">
                     <div class="panel panel-default">

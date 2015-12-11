@@ -1,6 +1,9 @@
 package controllers;
 
 import controllers.Application;
+import models.metadata.GroupService;
+import models.metadata.SearchService;
+import models.metadata.WorkflowService;
 import play.mvc.*;
 import util.APICall;
 import util.APICall.ResponseType;
@@ -23,6 +26,7 @@ import util.Constants;
  * Created by Shuai Wang on 11/20/15.
  */
 public class ForumController extends Controller {
+
 
     final static Form<PO> postForm = Form.form(PO.class);
 
@@ -47,7 +51,7 @@ public class ForumController extends Controller {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return ok(forumDiscuss.render(postList));
+        return ok(forumDiscuss.render(WorkflowService.all(), postList));
     }
 
     public static Result toSingle2(long Id){
@@ -100,32 +104,37 @@ public class ForumController extends Controller {
     }
 
 
-    public static Result createNewReply(){
+    public static Result createNewReply() {
         Form<PO> nu = postForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
         ObjectNode jsonData2 = Json.newObject();
-        long postid=0;
-        String ADD_REPLY=Constants.NEW_BACKEND+"reply/addReply";
-        String ADD_REPLY_TO_POST=Constants.NEW_BACKEND+"reply/addReplyToPost";
+        long postid = 0;
+        String ADD_REPLY = Constants.NEW_BACKEND + "reply/addReply";
+        String ADD_REPLY_TO_POST = Constants.NEW_BACKEND + "reply/addReplyToPost";
 
-        try{
+        try {
             String content = nu.get().getContent();
             jsonData.put("content", content);
 
             JsonNode replyResponse = APICall.postAPI(ADD_REPLY, jsonData);
-            long replyid=Long.parseLong(replyResponse.get("replyId").asText());
+            long replyid = Long.parseLong(replyResponse.get("replyId").asText());
             //add reply to post
             jsonData2.put("replyId", replyid);
             jsonData2.put("postId", iidd);
-            postid=iidd;
+            postid = iidd;
             JsonNode replyResponse2 = APICall.postAPI(ADD_REPLY_TO_POST, jsonData2);
-            postid=Long.parseLong(replyResponse2.get("postId").asText());
+            postid = Long.parseLong(replyResponse2.get("postId").asText());
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return redirect(
                 routes.ForumController.toSingle2(postid)
         );
+    }
+
+    public static Result search(String tag) {
+        return ok(forumDiscuss.render(SearchService.searchGetWorkflows(tag), Post.all()));
+
     }
 }

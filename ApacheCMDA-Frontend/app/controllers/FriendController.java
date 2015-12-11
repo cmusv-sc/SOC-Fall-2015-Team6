@@ -30,4 +30,7 @@ public class FriendController extends Controller {
         return ok(workflow_home.render(user, Post.all(), Friend.all(), Friend.allSubscribe(), Group.all()));
     }
 
+    public static Result acceptFriend(String id) {
+        return ok(allusers.render(User.getAllUser()));
+    }
 }
