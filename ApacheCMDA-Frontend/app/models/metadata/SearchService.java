@@ -37,6 +37,9 @@ public class SearchService {
         userData.put("name", tag);
         JsonNode idResponse = APICall.postAPI(GET_TAG_ID, userData);
 
+
+        System.out.println(idResponse);
+
         if(idResponse != null) {
             String id = idResponse.get("tagId").asText();
 
@@ -66,7 +69,8 @@ public class SearchService {
 
         System.out.println(idResponse);
 
-        if(idResponse != null) {
+        if(idResponse != null && idResponse.get("tagId") != null) {
+
             String id = idResponse.get("tagId").asText();
 
             userData = Json.newObject();

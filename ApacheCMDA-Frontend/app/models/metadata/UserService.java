@@ -35,6 +35,7 @@ public class UserService {
 
 
 	public static JsonNode verifyUserAuthentity(JsonNode jsonData) {
+		System.out.println(APICall.postAPI(VERIFY_USER_CALL, jsonData));
 		return APICall.postAPI(VERIFY_USER_CALL, jsonData);
 	}
 
