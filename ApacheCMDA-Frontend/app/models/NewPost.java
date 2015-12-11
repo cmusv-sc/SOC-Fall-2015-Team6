@@ -1,22 +1,29 @@
 package models;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import controllers.Application;
+import models.metadata.UserService;
+import play.api.mvc.Controller;
+import play.libs.Json;
 import util.APICall;
 import util.Constants;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by guoxi_000 on 11/19/2015.
  */
-public class NewPost {
+public class NewPost extends play.mvc.Controller {
 
     private long id;
-
+    public String image;
     private String domain;               // [workflow|service|group]
     private String domainName;           // [workflowName|serviceName|groupName]
-
+    public String Id;
+    public String userName;
     private String title;                // post title
     private String content;              // post content
     private String attachment;           // attachment link of image, pdf or video
@@ -26,7 +33,7 @@ public class NewPost {
                                          // the thread will be able to select a later reply as an
                                          // answer (i.e., the “mark as answer” as in Stackoverflow style).
     private int questionableCount;
-
+    public String[] tags;
     private User newUser;
 
     private List<NewReply> newReplies = new ArrayList<NewReply>();
@@ -47,6 +54,48 @@ public class NewPost {
         this.attachment = attachment;
         this.isQuestion = isQuestion;
         this.questionableCount = questionableCount;
+    }
+
+    public NewPost(String Id, String domain, String domainName, String title, String content, String attachment, String userName) {
+        this.image = "http://graphics.wsj.com/six-degrees-of-lebron-james/img/LeBron_head.jpg";
+        this.Id = Id;
+        this.domain = domain;
+        this.domainName = domainName;
+        this.title = title;
+        this.content = content;
+        this.attachment = attachment;
+        this.userName = userName;
+    }
+
+    public static List<NewPost> all() {
+        List<NewPost> posts = new ArrayList<NewPost>();
+
+        ObjectNode jsonData = Json.newObject();
+        jsonData.put("email", session().get("email"));
+        JsonNode response = UserService.getUserByEmail(jsonData);
+        Application.sessionMsg(response);
+
+        String userID = response.path("userId").asText();
+
+        JsonNode allfriends = UserService.getAllFriends(userID);
+        Iterator<JsonNode> it = allfriends.get("subscribeUsers").iterator();
+        while (it.hasNext()) {
+            JsonNode now = it.next();
+            String friendID = now.get("userId").asText();
+            String userName = now.get("userName").asText();
+            JsonNode newUser = UserService.getAllFriends(friendID);
+            Iterator<JsonNode> newIT = newUser.get("posts").iterator();
+            while (newIT.hasNext()) {
+                JsonNode post = newIT.next();
+                String[] testTags = new String[]{"nba", "18655", "data"};
+                NewPost post1 = new NewPost(post.get("postId").asText(), post.get("domain").asText(), post.get("domainName").asText(), post.get("title").asText(), post.get("content").asText(), post.get("attachment").asText(), userName);
+
+                //Post post1 = new Post(post.get("Id").asText(), post.get("domain").asText(), post.get("domainName").asText(), post.get("title").asText(), post.get("content").asText(), post.get("attachment").asText());
+                post1.setTags(testTags);
+                posts.add(post1);
+            }
+        }
+        return posts;
     }
 
     public long getId() {
@@ -137,5 +186,7 @@ public class NewPost {
         this.newReplies = newReplies;
     }
 
-   
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
 }

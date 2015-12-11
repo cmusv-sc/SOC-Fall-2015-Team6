@@ -134,7 +134,7 @@ public class ForumController extends Controller {
     }
 
     public static Result search(String tag) {
-        return ok(forumDiscuss.render(SearchService.searchGetWorkflows(tag), Post.all()));
+        return ok(forumDiscuss.render(SearchService.searchGetWorkflows(tag), NewPost.all()));
 
     }
 }

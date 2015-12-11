@@ -37,7 +37,7 @@ public class Constants {
     public static final String GET_DATASETLIST ="getDatasetList/";
 
 	//New backend API (MySQL database)
-	public static final String NEW_BACKEND = "http://localhost:9034/";
+	public static final String NEW_BACKEND = "http://localhost:9036/";
 	//New service execution log stuff
 	public static final String SERVICE_EXECUTION_LOG =	"serviceExecutionLog/";
 	public static final String SERVICE_EXECUTION_LOG_QUERY =	"queryServiceExecutionLogs";
