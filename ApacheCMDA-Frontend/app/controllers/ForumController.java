@@ -1,6 +1,9 @@
 package controllers;
 
 import controllers.Application;
+import models.metadata.GroupService;
+import models.metadata.SearchService;
+import models.metadata.WorkflowService;
 import play.mvc.*;
 import util.APICall;
 import util.APICall.ResponseType;
@@ -20,6 +23,10 @@ import models.metadata.UserService;
  */
 public class ForumController extends Controller {
     public static Result startDiscuss() {
-        return ok(forumDiscuss.render("ok"));
+        return ok(forumDiscuss.render(WorkflowService.all(), Post.all()));
+    }
+
+    public static Result search(String tag) {
+        return ok(forumDiscuss.render(SearchService.searchGetWorkflows(tag), Post.all()));
     }
 }

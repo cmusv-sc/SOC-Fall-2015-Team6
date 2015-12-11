@@ -29,6 +29,10 @@ public class Post extends Controller {
 
     private static final String GET_POSTS_CALL = Constants.NEW_BACKEND+"climateService/getAllPosts/json";
 
+    public Post(String title) {
+        this.title = title;
+    }
+
     public Post(String Id, String domain, String domainName, String title, String content, String attachment, String userName) {
         this.image = "http://graphics.wsj.com/six-degrees-of-lebron-james/img/LeBron_head.jpg";
         this.Id = Id;

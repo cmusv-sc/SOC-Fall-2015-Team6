@@ -38,6 +38,7 @@ POST        /workflowHome/editWorkflow/addLinks				     controllers.WorkflowCont
 POST        /workflowHome/editWorkflow/addAttributes		     controllers.WorkflowController.addAttributes()
 
 GET         /workflowHome/forum                                  controllers.ForumController.startDiscuss()
+GET         /workflowHome/forum/search                                  controllers.ForumController.search(String)
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
 GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
@@ -60,7 +61,6 @@ GET			/workflowHome/acceptFriend 							  controllers.FriendController.acceptFri
 GET			/workflowHome/deleteFriend 							  controllers.FriendController.deleteFriend(String)
 GET			/workflowHome/addSubscribe 							  controllers.SubscribeController.addSubscribe(String)
 GET			/workflowHome/deleteSubscribe							  controllers.SubscribeController.deleteSubscribe(String)
-
 
 
 
