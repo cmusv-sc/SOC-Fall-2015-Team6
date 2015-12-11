@@ -29,7 +29,8 @@ public class UserService {
 	private static final String GET_GROUP_ID_BY_NAME = Constants.NEW_BACKEND+"group/getGroupIdByName";
 	private static final String ADD_USER_TO_GROUP = Constants.NEW_BACKEND+"user/addUserToGroupAsMember";
 	private static final String DELETE_USER_FROM_GROUP = Constants.NEW_BACKEND+"user/deleteUserFromGroup";
-
+	private static final String GET_USER_SUBSCRIBE_NUMBER = Constants.NEW_BACKEND+"user/getSubscribersNumber";
+	private static final String GET_USER_COLLABORATOR_NUMBER = Constants.NEW_BACKEND+"user/getCollaboratorsNumber";
 
 
 
@@ -49,6 +50,22 @@ public class UserService {
 		userData.put("userId", id);
 
 		return APICall.postAPI(GET_USER_BY_ID, userData);
+	}
+
+	public static String getSubscribersNumber(String userId) {
+
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userId);
+		JsonNode result = APICall.postAPI(GET_USER_SUBSCRIBE_NUMBER, userData);
+		return result.get("subscribersNumber").asText();
+	}
+
+	public static String getCollaboratorsNumber(String userId) {
+
+		ObjectNode userData = Json.newObject();
+		userData.put("userId", userId);
+		JsonNode result = APICall.postAPI(GET_USER_COLLABORATOR_NUMBER, userData);
+		return result.get("collaboratorsNumber").asText();
 	}
 
 	public static JsonNode getAllUsers() {

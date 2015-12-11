@@ -125,7 +125,6 @@ public class Friend  extends Controller {
         return friends;
     }
 
-
     public static String addFriend(String id) {
         ObjectNode jsonData = Json.newObject();
         jsonData.put("email", session().get("email"));

@@ -68,6 +68,9 @@ public class User {
 	private String researchFields;
 	private String highestDegree;
 
+	private String subscribersNumber;
+	private String collaboratorsNumber;
+
 	public User() {
 
 	}
@@ -211,6 +214,22 @@ public class User {
 		this.userName = userName;
 	}
 
+	public String getSubscribersNumber() {
+		return subscribersNumber;
+	}
+
+	public void setSubscribersNumber(String subscribersNumber) {
+		this.subscribersNumber = subscribersNumber;
+	}
+
+	public String getCollaboratorsNumber() {
+		return collaboratorsNumber;
+	}
+
+	public void setCollaboratorsNumber(String collaboratorsNumber) {
+		this.collaboratorsNumber = collaboratorsNumber;
+	}
+
 	static public ArrayList<User> getAllUser() {
 
 		JsonNode allusers = UserService.getAllUsers();
@@ -228,6 +247,5 @@ public class User {
 		}
 		return users;
 	}
-
 }
 
