@@ -95,6 +95,7 @@ public class NewPost extends play.mvc.Controller {
                 posts.add(post1);
             }
         }
+
         return posts;
     }
 
