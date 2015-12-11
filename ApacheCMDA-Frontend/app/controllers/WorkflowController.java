@@ -22,6 +22,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class WorkflowController extends Controller {
             .form(WorkflowService.class);
 
     public static Result newWorkflow() {
-        return ok(newWorkflow.render(workflowServiceForm));
+        return ok(newWorkflow.render(workflowServiceForm, Friend.all(), Group.all()));
     }
 
     public static Result createNewWorkflow() {
@@ -61,7 +62,7 @@ public class WorkflowController extends Controller {
 //            jsonData.put("image", new String(Base64.encodeBase64(imageBytes)));
 
             jsonData.put("previewImage", dc.field("Url").value());
-            jsonData.put("contributors", dc.field("Contributors").value());
+            jsonData.put("contributor", dc.field("Contributors").value());
             jsonData.put("tags", dc.field("Tags").value());
             jsonData.put("attributeWorkflow", dc.field("AttributeWorkflow").value());
 
@@ -72,6 +73,11 @@ public class WorkflowController extends Controller {
             jsonData.put("links", dc.field("Links").value());
             jsonData.put("instructions", dc.field("Instructions").value());
             jsonData.put("datasets", dc.field("Datasets").value());
+
+//            jsonData.put("viewUserId", dc.filed("ViewUserID").value());
+//            jsonData.put("editUserId", dc.filed("EditUserID").value());
+//            jsonData.put("viewGroupId", dc.filed("ViewGroupID").value());
+//            jsonData.put("editGroupId", dc.filed("EditGroupID").value());
 
 			JsonNode response = WorkflowService.create(jsonData);
 			Application.flashMsg(response);
@@ -90,6 +96,16 @@ public class WorkflowController extends Controller {
 
     public static Result viewAllWorkflows() {
         List<WorkflowService> allWfServices = WorkflowService.all();
+
+        // user access control
+//        List<WorkflowService> accessWorkflows = new ArrayList<>();
+//        for(WorkflowService wf: allWfServices) {
+//            if(wf.getViewUserId() = session().get("currentUserId")) {
+//                accessWorkflows.add(wf);
+//            }
+//        }
+//        return ok(allWorkflows.render(accessWorkflows));
+
         return ok(allWorkflows.render(allWfServices));
     }
 

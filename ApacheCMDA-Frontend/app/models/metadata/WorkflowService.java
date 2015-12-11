@@ -26,8 +26,9 @@ public class WorkflowService {
     private String description;
 
     private String url;
-    private String contributors;
+    private List<String> contributors;
 
+    // popularity part
     private String usageCount;
     private String viewCount;
     private String downloadCount;
@@ -45,6 +46,11 @@ public class WorkflowService {
     private List<String> tagsList;
     private List<WorkflowService> attributeWorkflows;
 
+    // access control part
+    private List<String> viewUserId;
+    private List<String> editUserId;
+    private List<String> viewGroupId;
+    private List<String> editGroupId;
 
     private static final String ADD_WORKFLOW_CALL = Constants.NEW_BACKEND+"workflow/addWorkflow";
     private static final String ADD_TASK_CALL = Constants.NEW_BACKEND + "task/addTask";
@@ -61,6 +67,7 @@ public class WorkflowService {
     private static final String ADD_LINK_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "link/addLinkToWorkflow";
     private static final String ADD_TAG_CALL = Constants.NEW_BACKEND + "tag/addTag";
     private static final String ADD_TAG_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "workflow/addTagToWorkflow";
+    private static final String ADD_CONTRIBUTOR_TO_WORKFLOW_CALL = Constants.NEW_BACKEND + "user/addContributorToWorkflow";
 
     private static final String GET_WORKFLOW_BY_NAME_CALL = Constants.NEW_BACKEND + "workflow/getWorkflowIdByName";
     private static final String ADD_ATTRIBUTEWORKFLOW_CALL = Constants.NEW_BACKEND + "workflow/addAttributeWorkflowToWorkflow";
@@ -70,14 +77,17 @@ public class WorkflowService {
     private static final String GET_WF_POPULARITY_CALL = Constants.NEW_BACKEND + "workflow/getWorkflowPopularity";
 
 
-    private static Map<String, WorkflowService> wfMaps = new HashMap<>();
-
     public static JsonNode create(JsonNode jsonData) {
 
         //add workflow, get ID
         JsonNode addResponse = APICall.postAPI(ADD_WORKFLOW_CALL, jsonData);
         String workflowId = addResponse.get("workflowId").asText();
 
+        //add contributors
+        ObjectNode contriJason = Json.newObject();
+        contriJason.put("userId", jsonData.path("contributor").asText());
+        contriJason.put("workflowId", workflowId);
+        JsonNode addContributorToWfResponse = APICall.postAPI(ADD_CONTRIBUTOR_TO_WORKFLOW_CALL, contriJason);
 
         //add task, get taskID
         String[] taskDes = jsonData.path("tasks").asText().split(":");
@@ -186,6 +196,14 @@ public class WorkflowService {
         addAttToWfJson.put("workflowId", workflowId);
         JsonNode addAttToWfResponse = APICall.postAPI(ADD_ATTRIBUTEWORKFLOW_CALL, addAttToWfJson);
 
+        //add access control
+//        ObjectNode accessJson = Json.newObject();
+//        accessJson.put("viewUserId", jsonData.path("viewUserId").asText());
+//        accessJson.put("editUserId", jsonData.path("editUserId").asText());
+//        accessJson.put("viewGroupId", jsonData.path("viewGroupId").asText());
+//        accessJson.put("editGroupId", jsonData.path("editGroupId").asText());
+//        JsonNode accessResponse = APICall.postAPI(ADD_ACCESS_CONTROL_CALL, accessJson);
+
 
         //get workflow
         ObjectNode getJson = Json.newObject();
@@ -250,12 +268,29 @@ public class WorkflowService {
         wfs.setDownloadCount(wfResponse.path("downloadCount").asText());
         wfs.setQuestionableCount(wfResponse.path("questionableCount").asText());
 
+        // set access control, but no interface in backend.
+//        wfs.setViewUserId(wfResponse.path("viewUserId").asText());
+//        wfs.setEditUserId(wfResponse.path("editUserId").asText());
+//        wfs.setViewGroupId(wfResponse.path("viewGroupId").asText());
+//        wfs.setEditGroupId(wfResponse.path("editGroupId").asText());
+
         // set popularity
         ObjectNode ppJson = Json.newObject();
         ppJson.put("workflowId", id);
         JsonNode ppResponse = APICall.postAPI(GET_WF_POPULARITY_CALL, ppJson);
         String pp = ppResponse.path("popularity").asText();
         wfs.setPopularity(pp);
+
+        //set contributors
+        JsonNode contriNode = wfResponse.get("contributors");
+        List<String> contriList = new ArrayList<>();
+        for(int i = 0; i < contriNode.size(); i++) {
+            JsonNode json = contriNode.path(i);
+
+            String name = json.path("userName").asText();
+            contriList.add(name);
+        }
+        wfs.setContributors(contriList);
 
         // set tags
         JsonNode tagsNode = wfResponse.get("tags");
@@ -568,14 +603,6 @@ public class WorkflowService {
         this.description = description;
     }
 
-    public String getContributors() {
-        return contributors;
-    }
-
-    public void setContributors(String contributors) {
-        this.contributors = contributors;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -694,5 +721,45 @@ public class WorkflowService {
 
     public void setAttributeWorkflows(List<WorkflowService> attributeWorkflows) {
         this.attributeWorkflows = attributeWorkflows;
+    }
+
+    public List<String> getViewUserId() {
+        return viewUserId;
+    }
+
+    public void setViewUserId(List<String> viewUserId) {
+        this.viewUserId = viewUserId;
+    }
+
+    public List<String> getEditUserId() {
+        return editUserId;
+    }
+
+    public void setEditUserId(List<String> editUserId) {
+        this.editUserId = editUserId;
+    }
+
+    public List<String> getViewGroupId() {
+        return viewGroupId;
+    }
+
+    public void setViewGroupId(List<String> viewGroupId) {
+        this.viewGroupId = viewGroupId;
+    }
+
+    public List<String> getEditGroupId() {
+        return editGroupId;
+    }
+
+    public void setEditGroupId(List<String> editGroupId) {
+        this.editGroupId = editGroupId;
+    }
+
+    public List<String> getContributors() {
+        return contributors;
+    }
+
+    public void setContributors(List<String> contributors) {
+        this.contributors = contributors;
     }
 }

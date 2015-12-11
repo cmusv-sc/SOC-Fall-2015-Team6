@@ -1,4 +1,5 @@
-@(workflowServiceForm: play.data.Form[metadata.WorkflowService])
+@(workflowServiceForm: play.data.Form[metadata.WorkflowService], friends: List[Friend], groups: List[Group])
+
 @import helper._
 
 @scripts = {
@@ -46,7 +47,7 @@
 
                         @inputText(
                                 workflowServiceForm("Contributors"),
-                                '_label -> "Contributors"
+                                '_label -> "ContributorID"
                         )
 
                         @inputText(
@@ -72,6 +73,42 @@
                         @inputText(
                                 workflowServiceForm("AttributeWorkflow"),
                                 '_label -> "Attribute workflow(Name)"
+                        )
+
+                        <br>
+                        <h3>There shows all groups:</h3>
+                        @for(group <- groups) {
+                            <div class="list-group">
+                                <h4 class="list-group-item-heading">ID: @group.groupId , Title:@group.getTitle()</h4>
+                            </div>
+                        }
+
+                        <h3>There shows all friends:</h3>
+                        @for(friend <- friends){
+                            <div class="list-group">
+                                <h4 class="list-group-item-heading">ID: @friend.getID , Name:@friend.getName</h4>
+                            </div>
+                        }
+
+
+                        @inputText(
+                                workflowServiceForm("ViewUserID"),
+                                '_label -> "Access View UserID"
+                        )
+
+                        @inputText(
+                                workflowServiceForm("EditUserID"),
+                                '_label -> "Access Edit UserID"
+                        )
+
+                        @inputText(
+                                workflowServiceForm("ViewGroupID"),
+                                '_label -> "Access View GroupID"
+                        )
+
+                        @inputText(
+                                workflowServiceForm("EditGroupID"),
+                                '_label -> "Access Edit GroupID"
                         )
 
                         <input class="btn" type="submit" value="Create it">

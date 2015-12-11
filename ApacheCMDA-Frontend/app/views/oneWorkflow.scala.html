@@ -33,9 +33,14 @@
                 <p class="lead">Name: @workflow.getName()</p>
                 <p>Description: @workflow.getDescription()</p>
                 <p>Tags:
-                @for(tag <- workflow.getTagsList()) {
-                    @tag .
-                }
+                    @for(tag <- workflow.getTagsList()) {
+                        @tag .
+                    }
+                </p>
+                <p>Contributor:
+                    @for(con <- workflow.getContributors()) {
+                        @con .
+                    }
                 </p>
 
                 <img class="img-responsive" src='@{workflow.getUrl()}' alt="">
