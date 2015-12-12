@@ -76,8 +76,11 @@ public class WorkflowService {
     private static final String GET_ALL_WORKFLOWS_CALL = Constants.NEW_BACKEND + "workflow/getAllWorkflows";
     private static final String GET_WF_POPULARITY_CALL = Constants.NEW_BACKEND + "workflow/getWorkflowPopularity";
 
+    private static final String ADD_POST_CALL = Constants.NEW_BACKEND + "post/addPost";
+    private static final String ADD_POST_TO_USER_CALL = Constants.NEW_BACKEND + "post/addPostToUser";
 
     public static JsonNode create(JsonNode jsonData) {
+        System.out.println("");
 
         //add workflow, get ID
         JsonNode addResponse = APICall.postAPI(ADD_WORKFLOW_CALL, jsonData);
@@ -575,6 +578,28 @@ public class WorkflowService {
         JsonNode addAttToWfResponse = APICall.postAPI(ADD_ATTRIBUTEWORKFLOW_CALL, addAttToWfJson);
 
         return addAttToWfResponse;
+    }
+
+    public static JsonNode addNewPost(JsonNode jsonData) {
+        String id = jsonData.path("wfId").asText();
+
+        ObjectNode postJson = Json.newObject();
+        postJson.put("domain", jsonData.path("domain").asText());
+        postJson.put("domainName", jsonData.path("domainName").asText());
+        postJson.put("title", jsonData.path("title").asText());
+        postJson.put("content", jsonData.path("content").asText());
+        postJson.put("attachment", "https://localizationlocalisation.wordpress.com/tag/workflow/");
+        postJson.put("isQuestion", true);
+        JsonNode postResponse = APICall.postAPI(ADD_POST_CALL, postJson);
+
+        String pid = postResponse.path("postId").asText();
+        String uid = jsonData.path("userID").asText();
+        ObjectNode addJson = Json.newObject();
+        addJson.put("postId", pid);
+        addJson.put("userId", uid);
+        JsonNode addResponse = APICall.postAPI(ADD_POST_TO_USER_CALL, addJson);
+
+        return addResponse;
     }
 
 

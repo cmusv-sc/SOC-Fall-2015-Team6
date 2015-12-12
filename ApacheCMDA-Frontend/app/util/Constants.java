@@ -30,14 +30,16 @@ public class Constants {
 	public static final String NEW_ADD_CLIMATE_SERVICE = "addClimateService";
 	public static final String NEW_DELETE_CLIMATE_SERVICE = "climateService/deleteClimateService/id/";
 	public static final String NEW_EDIT_CLIMATE_SERVICE = "updateClimateService";
-	
+
+
 	//service log
 	public static final String NEW_GET_A_SERVICE_LOG = "getServiceExecutionLogs/";
 
     public static final String GET_DATASETLIST ="getDatasetList/";
 
 	//New backend API (MySQL database)
-	public static final String NEW_BACKEND = "http://localhost:9036/";
+	public static final String NEW_BACKEND = "http://localhost:9034/";
+
 	//New service execution log stuff
 	public static final String SERVICE_EXECUTION_LOG =	"serviceExecutionLog/";
 	public static final String SERVICE_EXECUTION_LOG_QUERY =	"queryServiceExecutionLogs";

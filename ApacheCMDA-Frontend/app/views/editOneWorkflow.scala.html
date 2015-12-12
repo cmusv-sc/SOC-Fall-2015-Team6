@@ -104,6 +104,40 @@
     <br>
 
 
+    <div>
+    @form(routes.WorkflowController.addPosts(), 'class -> "form-horizontal", 'role -> "form") {
+        <h3>Please Add a New Post</h3>
+        @inputText(
+            editWorkflowFrom("domain"),
+            '_label -> "Domain"
+        )
+
+        @inputText(
+            editWorkflowFrom("domainName"),
+            '_label -> "Workflow Name"
+        )
+
+        @inputText(
+            editWorkflowFrom("title"),
+            '_label -> "Title"
+        )
+
+        @inputText(
+            editWorkflowFrom("content"),
+            '_label -> "Content"
+        )
+
+        @inputText(
+            editWorkflowFrom("userID"),
+            '_label -> "Creator ID"
+        )
+
+        <input class="btn" type="submit" value="Add Post">
+        }
+    </div>
+    <br>
+
+
     <a href="@routes.Application.workflowHome()" class="btn">Cancel</a>
 
 }

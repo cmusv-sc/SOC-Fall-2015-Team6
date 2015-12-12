@@ -1,4 +1,4 @@
-@(userForm: play.data.Form[ForumController.PO], comments: List[NewReply], Id:Long)
+@(userForm: play.data.Form[ForumController.PO], comments: List[NewReply])
 @import helper._
 
 @main("Single2") {
@@ -10,7 +10,7 @@
 
                     <!-- start of page content -->
                     <div class="span8 page-content">
-                        <h2>Integrating WordPress with Your Website</h2>
+                        <h2>There you can comment a workflow:</h2>
                     </div>
 
                         <!--start of comments  -->
@@ -51,9 +51,6 @@
                                 placeholder="Content" required=""></textarea>
                             </div>
 
-                            <div>
-                                <a href="@routes.ForumController.createNewReplyProxy(Id)">Confirm?</a>
-                            </div>
 
                             <div>
                                 <input class="btn" name="submit" type="submit" id="submit"  value="Submit Comment">
@@ -63,6 +60,8 @@
                         </div>
                     <!-- end of page content -->
                     </section>
+
+                        <a href="@routes.ForumController.startDiscuss("")" class="btn">Cancel</a>
 
                     </div>
                 </div>

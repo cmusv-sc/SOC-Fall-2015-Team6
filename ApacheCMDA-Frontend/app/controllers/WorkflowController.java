@@ -22,7 +22,6 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +40,7 @@ public class WorkflowController extends Controller {
     }
 
     public static Result createNewWorkflow() {
+        System.out.println("");
 
         Form<WorkflowService> dc = workflowServiceForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
@@ -300,6 +300,32 @@ public class WorkflowController extends Controller {
             jsonData.put("attributeWorkflow", dc.field("NewAttribute").value());
             jsonData.put("wfId", session().get("currentWFID"));
             JsonNode response = WorkflowService.addNewAttribute(jsonData);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall
+                    .createResponse(ResponseType.CONVERSIONERROR));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Application.flashMsg(APICall.createResponse(ResponseType.UNKNOWN));
+        }
+
+        return redirect(
+                routes.WorkflowController.editWorkflow()
+        );
+    }
+
+    public static Result addPosts() {
+        Form<WorkflowService> dc = editWorkflowForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+
+        try {
+            jsonData.put("domain", "workflow");
+            jsonData.put("domainName", dc.field("domainName").value());
+            jsonData.put("title", dc.field("title").value());
+            jsonData.put("content", dc.field("content").value());
+            jsonData.put("userID", dc.field("userID").value());
+
+            JsonNode response = WorkflowService.addNewPost(jsonData);
         } catch (IllegalStateException e) {
             e.printStackTrace();
             Application.flashMsg(APICall

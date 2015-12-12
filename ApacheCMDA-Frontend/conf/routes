@@ -36,36 +36,35 @@ POST        /workflowHome/editWorkflow/addInstructions		     controllers.Workflo
 POST        /workflowHome/editWorkflow/addDatasets				 controllers.WorkflowController.addDatasets()
 POST        /workflowHome/editWorkflow/addLinks				     controllers.WorkflowController.addLinks()
 POST        /workflowHome/editWorkflow/addAttributes		     controllers.WorkflowController.addAttributes()
-
+POST        /workflowHome/editWorkflow/addPosts		             controllers.WorkflowController.addPosts()
 
 GET         /workflowHome/forum                                  controllers.ForumController.startDiscuss(wfname?=null)
 GET         /workflowHome/single2                                controllers.ForumController.toSingle2(id : Long)
 GET			/createNewReply										 controllers.ForumController.createNewReply()
-GET			/createNewReplyProxy								 controllers.ForumController.createNewReplyProxy(id : Long)
 
-GET         /workflowHome/forum/search                                  controllers.ForumController.search(String)
+GET         /workflowHome/forum/search                           controllers.ForumController.search(String)
 
 GET         /workflowHome/userFriends                            controllers.RelationshipController.getFriendsList()
 GET         /workflowHome/userGroups                             controllers.RelationshipController.getGroup()
 
-GET			/workflowHome/newGroup 						     controllers.GroupController.newGroup()
-POST		/workflowHome/createNewGroups  					 controllers.GroupController.createNewGroup()
-GET			/workflowHome/addUserToGroup 						controllers.GroupController.addUserToGroup(String)
-POST		/workflowHome/addUserToGroupSubmit  					 controllers.GroupController.addUserToGroupSubmit(String)
-GET			/workflowHome/deleteUserFromGroup           controllers.GroupController.deleteUserFromGroup(id ?= null, name ?= null)
+GET			/workflowHome/newGroup 						         controllers.GroupController.newGroup()
+POST		/workflowHome/createNewGroups  					     controllers.GroupController.createNewGroup()
+GET			/workflowHome/addUserToGroup 						 controllers.GroupController.addUserToGroup(String)
+POST		/workflowHome/addUserToGroupSubmit  			     controllers.GroupController.addUserToGroupSubmit(String)
+GET			/workflowHome/deleteUserFromGroup                    controllers.GroupController.deleteUserFromGroup(id ?= null, name ?= null)
 
 
 GET			/workflowHome/editUser 								 controllers.UserController.showUser(name ?= null, id: Int)
 POST		/workflowHome/editUser								 controllers.UserController.showUser(name ?= null,id: Int)
 
 GET			/workflowHome/group 							     controllers.GroupController.showGroups()
-GET			/workflowHome/deletegroup 							  controllers.GroupController.deleteGroup(String)
+GET			/workflowHome/deletegroup 							 controllers.GroupController.deleteGroup(String)
 GET			/workflowHome/allusers 							     controllers.UserController.showAllUser()
-GET			/workflowHome/addFriend 							  controllers.FriendController.addFriend(String)
-GET			/workflowHome/acceptFriend 							  controllers.FriendController.acceptFriend(String)
-GET			/workflowHome/deleteFriend 							  controllers.FriendController.deleteFriend(String)
-GET			/workflowHome/addSubscribe 							  controllers.SubscribeController.addSubscribe(String)
-GET			/workflowHome/deleteSubscribe							  controllers.SubscribeController.deleteSubscribe(String)
+GET			/workflowHome/addFriend 							 controllers.FriendController.addFriend(String)
+GET			/workflowHome/acceptFriend 							 controllers.FriendController.acceptFriend(String)
+GET			/workflowHome/deleteFriend 							 controllers.FriendController.deleteFriend(String)
+GET			/workflowHome/addSubscribe 							 controllers.SubscribeController.addSubscribe(String)
+GET			/workflowHome/deleteSubscribe						 controllers.SubscribeController.deleteSubscribe(String)
 
 
 
